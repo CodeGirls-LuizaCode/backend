@@ -16,11 +16,13 @@ const categorias = Categorias(sequelize, Sequelize.DataTypes);
 const endereco = Endereco(sequelize, Sequelize.DataTypes);
 const lojas = Lojas(sequelize, Sequelize.DataTypes);
 
+//Verificar!!!
 produtos.belongsTo(categorias);
 lista.belongsTo(produtos);
 endereco.hasMany(usuario);
 lojas.hasMany(lista);
 lista.belongsTo(usuario);
+
 
 const db = {
     usuario,

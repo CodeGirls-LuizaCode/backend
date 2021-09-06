@@ -9,7 +9,7 @@ const lojas = ( sequelize, DataTypes) => {
             allowNull: false
         },
         numero: {
-            type: DataTypes.NUMERIC(5),
+            type: DataTypes.NUMERIC,
             allowNull: false
         },
         complemento: {

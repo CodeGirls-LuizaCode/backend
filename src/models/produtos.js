@@ -1,9 +1,9 @@
 const produtos = ( sequelize, DataTypes) => {
     const Produtos = sequelize.define('Produtos', {
-        id_categoria: {
-            model: 'categorias',
-            key: 'id'
-        },
+        // id_categoria: {
+        //     model: 'categorias',
+        //     key: 'id'
+        // },
         produto: {
             type: DataTypes.STRING,
         },

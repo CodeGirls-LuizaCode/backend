@@ -4,7 +4,7 @@ const endereco = ( sequelize, DataTypes) => {
             type: DataTypes.STRING,
         },
         numero: {
-            type: DataTypes.INTEGER(5),
+            type: DataTypes.RANGE(DataTypes.INTEGER),
         },
         complemento: {
             type: DataTypes.STRING,

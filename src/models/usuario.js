@@ -15,10 +15,10 @@ const usuario = ( sequelize, DataTypes) => {
         senha: {
             type: DataTypes.STRING,
         },
-        id_endereco: {
-            model: 'endereco',
-            key: 'id'
-        }
+        // id_endereco: {
+        //     model: 'endereco',
+        //     key: 'id'
+        // }
     }, {
         tableName: 'usuario'
     })

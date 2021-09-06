@@ -7,7 +7,7 @@ const lojas = ( sequelize, DataTypes) => {
             type: DataTypes.STRING,
         },
         numero: {
-            type: DataTypes.INTEGER(5),
+            type: DataTypes.RANGE(DataTypes.INTEGER),
         },
         bairro: {
             type: DataTypes.STRING,

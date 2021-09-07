@@ -10,8 +10,6 @@ class UsuarioService {
     return usuario
   }
 
-  
-
   async cadastrar(dadosUsuario){
     const usuario = await this.usuario.findOne({
       where: {

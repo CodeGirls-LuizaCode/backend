@@ -11,10 +11,6 @@ router.get('/', async (req, res) => {
   res.status(200).json(usuario)
 })
 
-
-
-
-
 router.post('/', 
   body('cpf').not().isEmpty().trim().escape(),
   check('cpf')
@@ -35,10 +31,20 @@ router.post('/',
     } catch(erro){
       res.status(400).send(erro.message)
     }
-
   }
-
 ),
 
+router.delete("/usuarios/:UsuarioId", (req, res) => {
+    const usuario = usuario.destroy({_UsuarioId: req.params.id}, (err) => {
+        if(err) return res.status(400).json({
+        error: true,
+        message: "Error: A pessoa usuária não foi apagada corretamente"
+        });
+        return res.json({
+        error: false,
+        message: "A pessoa usuária foi apagada corretamente"
+        })
+    })
+})
 
 module.exports = router

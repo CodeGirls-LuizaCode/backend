@@ -31,9 +31,6 @@ router.get('/', async (req, res) => {
 })
 
 
-
-
-
 router.post('/', 
   body('cpf').not().isEmpty().trim().escape(),
   check('cpf')
@@ -72,9 +69,32 @@ router.post('/',
       res.status(400).send(erro.message)
     }
 
-  }
+  },
 
-),
+)
+
+
+router.put('/:id', 
+  body('cpf').not().isEmpty().trim().escape(),
+  check('cpf')
+    .not().isEmpty()
+    .matches('[0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2}')
+    .withMessage('Cpf Invalido'),
+  async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()})
+    }
+    const dadosUsuario = req.body
+    try {
+      await usuarioService.alterar(req.params.id, dadosUsuario)
+      res.status(201).send('usuario Atualizado com sucesso!')
+    } catch(erro){
+      res.status(401).send(erro.message)
+    }
+
+  },
+)
 
 
 module.exports = router

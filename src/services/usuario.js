@@ -26,6 +26,10 @@ class UsuarioService {
       throw erro
     }
   }
+
+  async deletar(id, dadosUsuario) {
+    return await this.usuario.update(dadosUsuario, { where: { id: id } })
+  }
   
 }
   

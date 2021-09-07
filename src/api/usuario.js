@@ -34,8 +34,8 @@ router.post('/',
   }
 ),
 
-router.delete("/usuarios/:UsuarioId", (req, res) => {
-    const usuario = usuario.destroy({_UsuarioId: req.params.id}, (err) => {
+router.delete("/:id", (req, res) => {
+    const usuario = usuario.destroy({id: req.params.id}, (err) => {
         if(err) return res.status(400).json({
         error: true,
         message: "Error: A pessoa usuária não foi apagada corretamente"

@@ -1,5 +1,3 @@
-const { usuario } = require("../models")
-
 class UsuarioService {
   constructor (UsuarioModel) {
     this.usuario = UsuarioModel
@@ -9,7 +7,6 @@ class UsuarioService {
     const usuario = await this.usuario.findAll()
     return usuario
   }
-
   
 
   async cadastrar(dadosUsuario){
@@ -28,7 +25,10 @@ class UsuarioService {
       throw erro
     }
   }
-  
+
+  async alterar(id, dadosUsuario) {
+    return await this.usuario.update(dadosUsuario, { where: { id: id } })
+  }
+
 }
-  
 module.exports = UsuarioService

@@ -17,12 +17,15 @@ const endereco = Endereco(sequelize, Sequelize.DataTypes);
 const lojas = Lojas(sequelize, Sequelize.DataTypes);
 
 //Verificar!!!
+//RELACIONAMENTO DE TABELAS:
 produtos.belongsTo(categorias);
-lista.belongsTo(produtos);
 endereco.hasMany(usuario);
 lojas.hasMany(lista);
-lista.belongsTo(usuario);
 
+//alterado, tabela pivô
+lista.belongsTo(usuario);
+lista.belongsTo(produtos);
+lista.belongsTo(lojas);
 
 const db = {
     usuario,

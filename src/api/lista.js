@@ -12,18 +12,22 @@ router.get('/', async (req, res) => {
 })
 
 
-router.post('/', 
-  body('produto').not().isEmpty().trim().escape(),
-  check('produto')
-    .not().isEmpty()
-    .toLowerCase()
-    .withMessage('Produto já adicionado'),
+router.post('/', [
+  body('ProdutoId').not().isEmpty().trim().escape().matches(/\d/),
+  check('ProdutoId')
+  .not().isEmpty().matches(/\d/)
+  .withMessage('USUARIO ERRO NO CHECK'),
 
+  body('UsuarioId').not().isEmpty().trim().escape().matches(/\d/),
+  check('UsuarioId')
+    .not().isEmpty().matches(/\d/)
+    .withMessage('USUARIO ERRO NO CHECK'),
+],
   async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).json({errors: errors.array()})
-    }
+    // const errors = validationResult(req)
+    // if (!errors.isEmpty()) {
+    //   return res.status(400).json({errors: errors.array()})
+    // }
     const listaCompra = req.body
     console.log(listaCompra)
     try {

@@ -1,0 +1,261 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Code Girls API",
+    "description": "Projeto final desenvolvido na 3ª edição do LuizaCode"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Produtos",
+      "description": "Endpoints relacionados ao recurso de produtos."
+    },
+    {
+      "name": "Usuario",
+      "description": "Endpoints relacionados ao recurso de usuarios."
+    },
+    {
+      "name": "Lista",
+      "description": "Endpoints relacionados ao recurso de lista de compra do usuário."
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/produtos/": {
+      "get": {
+        "tags": [],
+        "description": "Endpoint para obter listagem de todos produto.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Produtos encontrados",
+            "schema": {
+              "$ref": "#/definitions/produtos"
+            }
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          },
+          "404": {
+            "description": "Produtos não encontrados"
+          }
+        }
+      }
+    },
+    "/usuarios/": {
+      "get": {
+        "tags": [],
+        "description": "Endpoint para obter listagem de todos usuarios.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuarios encontrados",
+            "schema": {
+              "$ref": "#/definitions/usuario"
+            }
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          },
+          "404": {
+            "description": "usuario não encontrado"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "Endpoint para criar um usuario",
+        "parameters": [
+          {
+            "name": "novoUsuario",
+            "in": "body",
+            "description": "Informações do usuario",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/novoUsuario"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Nome, email, cpf, data_nascimento, e senha são obrigatórios"
+          }
+        }
+      }
+    },
+    "/listas/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "produtos": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "produto": {
+          "type": "string",
+          "example": "Celular"
+        },
+        "descricao": {
+          "type": "string",
+          "example": "Smartphone Motorola Moto G30 128GB White Lilac 4G - 4GB RAM Tela 6,5” Câm. Quádrupla + Selfie 13MP"
+        },
+        "marca": {
+          "type": "string",
+          "example": "Motorola"
+        },
+        "valor": {
+          "type": "number",
+          "example": 1.349
+        },
+        "image_prod": {
+          "type": "string",
+          "example": "null"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-09-06 14:21:40"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-09-06 14:21:40"
+        },
+        "categoriaId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "usuario": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "nome": {
+          "type": "string",
+          "example": "Laoma Nogueira"
+        },
+        "email": {
+          "type": "string",
+          "example": "laoma@gmail.com"
+        },
+        "cpf": {
+          "type": "string",
+          "example": "123.456.036-59"
+        },
+        "data_nascimento": {
+          "type": "number",
+          "example": 1961
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345636"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-09-06T17:29:44.105Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-09-06T17:29:44.105Z"
+        },
+        "enderecoId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "novoUsuario": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "nome": {
+          "type": "string",
+          "example": "Thais Minas"
+        },
+        "email": {
+          "type": "string",
+          "example": "thais@gmail.com"
+        },
+        "cpf": {
+          "type": "string",
+          "example": "321.456.036-59"
+        },
+        "data_nascimento": {
+          "type": "number",
+          "example": 1965
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345636"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-09-06T17:29:44.105Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-09-06T17:29:44.105Z"
+        },
+        "enderecoId": {
+          "type": "number",
+          "example": 1
+        }
+      },
+      "required": [
+        "nome",
+        "email",
+        "cpf",
+        "data_nascimento",
+        "senha"
+      ]
+    }
+  }
+}

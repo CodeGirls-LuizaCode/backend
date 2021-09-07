@@ -7,6 +7,25 @@ const UsuarioService = require('../services/usuario')
 const usuarioService = new UsuarioService(usuario)
 
 router.get('/', async (req, res) => {
+    /*
+    #swagger.tags = [Usuario]
+    #swagger.description = 'Endpoint para obter listagem de todos usuarios.'
+
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/usuario"},
+      description: 'Usuarios encontrados',
+
+    }
+
+    #swagger.responses[404] = {
+      description: 'usuario não encontrado'
+    }
+
+    #swagger.responses[400] = {
+      description: 'Desculpe, tivemos um problema com a requisição'
+    }
+
+  */
   const usuario = await usuarioService.listar()
   res.status(200).json(usuario)
 })
@@ -21,8 +40,25 @@ router.post('/',
     .not().isEmpty()
     .matches('[0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2}')
     .withMessage('Cpf Invalido'),
-
   async (req, res) => {
+    /*
+      #swagger.tags = ['Usuario']
+      #swagger.description = 'Endpoint para criar um usuario'
+      #swagger.parameters['novoUsuario] = {
+        in: 'body',
+        description: 'Informações do usuario',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/novoUsuario'}
+      }
+      #swager.responses[201] = {
+        description: 'Usuario criado com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Nome, email, cpf, data_nascimento, e senha são obrigatórios'
+      }
+    */
+
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({errors: errors.array()})

@@ -11,7 +11,6 @@ router.get('/', async (req, res) => {
     #swagger.tags = [Usuario]
     #swagger.description = 'Endpoint para obter listagem de todos usuarios.'
 
-<<<<<<< HEAD
     #swagger.responses[200] = {
       schema: { $ref: "#/definitions/usuario"},
       description: 'Usuarios encontrados',
@@ -32,8 +31,6 @@ router.get('/', async (req, res) => {
 })
 
 
-=======
->>>>>>> islene
 router.post('/', 
   body('cpf').not().isEmpty().trim().escape(),
   check('cpf')

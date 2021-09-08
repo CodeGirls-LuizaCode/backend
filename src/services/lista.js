@@ -1,5 +1,5 @@
-const { lista, produtos } = require("../models")
-const ProdutoService = require('../services/produtos')
+const { lista, produtos } = require("../models");
+const ProdutoService = require('../services/produtos');
 
 const produtoService = new ProdutoService(produtos);
 
@@ -12,7 +12,7 @@ class ListaService {
   async listarCompras() { //lista todas as compras do usuário
     const lista = await this.lista.findAll({
       include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa os relacionamentos pra isso)
-    })
+    });
     return lista;
   }
   
@@ -24,7 +24,7 @@ class ListaService {
         { UsuarioId: usuarioId },
         { data_finalizacao: null }
       ]
-    })
+    });
 
     return lista;
   }
@@ -36,24 +36,24 @@ class ListaService {
         { UsuarioId: listaCompra.UsuarioId },
         { data_finalizacao: null }
       ]
-    })
+    });
 
     if(lista) { //SE LISTA EXISTE = TRUE, SENÃO É FALSE E PULA A VALIDAÇÃO
-      throw new Error('Este produto já existe na sua lista de compras.')
+      throw new Error('Este produto já existe na sua lista de compras.');
     }
 
     const jaExiste = await this.possuiProdutoComMesmoNome(listaCompra);
     console.log(jaExiste);
 
     if (jaExiste) {
-      throw new Error('ERRO: Mesmo tipo de produto já adicionado ao carrinho.')
+      throw new Error('ERRO: Mesmo tipo de produto já adicionado ao carrinho.');
     }
     
     try {
       await this.lista.create(listaCompra) //adiciona o produto na lista de compra
     } catch(erro) {
-      console.log(erro.message)
-      throw erro
+      console.log(erro.message);
+      throw erro;
     }
   }
 
@@ -62,7 +62,7 @@ class ListaService {
     // Procura o produto q o cliente está comprando em todos os produtos do BD
     const produto = await this.produtoService.procuraProdutoId(listaCompra.ProdutoId)
     if(!produto) {
-      throw new Error('Produto não existe!')
+      throw new Error('Produto não existe!');
     }
 
     // Traz a Lista dos pedidos do cliente que não esteja finalizada
@@ -79,35 +79,24 @@ class ListaService {
     return false;
   }
 
-  //copia de teste da função de cima
-  async testeChecaPorNomeeUsuario(usuarioId, nomeProduto) {
-    
-    // Procura o produto do cliente
-    const produtoAchado = await produtoModel.findAll({ where: {produto: nomeProduto}});
-    console.log(produtoAchado);
+  async deletaProdutoDaLista(listaId) {
+    const lista = await this.lista.findOne({
+      where: [
+        { id: listaId }
+      ]
+    });
 
-    // Traz a Lista dos pedidos do cliente que não esteja finalizada
-    const lista = await this.listarComprasNaoFinalizadasDoUsuario(usuarioId);
-    console.log(lista);
-
-    //Controles para o While
-    let possuiNomeIgual = false;
-    i = 0;
-
-    while (possuiNomeIgual === false) {
-      if(produto.produto === lista[i].Produto.produto) {
-        possuiNomeIgual = true;
-      }
-      i++;
+    if(!lista) {//se não tem valor armazenado(lista = false), entra no if
+      throw new Error('Este ID de pedido não existe!');
     }
 
-    if (possuiNomeIgual) {
-      return true;
+    if(lista.data_finalizacao) {//se tem valor armazenado(lista = true), entra no if
+      throw new Error('Não é possível excluir produtos de uma compra finalizada!');
     }
 
-    return false;
+    return lista.destroy();
   }
 
 }
   
-module.exports = ListaService
+module.exports = ListaService;

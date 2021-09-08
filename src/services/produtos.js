@@ -9,12 +9,10 @@ class ProdutoService {
       return produtos;
     }
 
-    async findByID(produtoId) {
-      const produto = await this.produto.findOne({
-        where: [{ id: produtoId }]
-      });
+    async procuraProdutoId(produtoId) { //procura no BD o produto com o ID recebido na requisição
+      const produto = await this.produto.findOne({ where: { id: produtoId } });
       return produto;
-    }    
+    }
   
 }
   

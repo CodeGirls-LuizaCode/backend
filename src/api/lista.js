@@ -11,27 +11,33 @@ router.get('/', async (req, res) => {
   res.status(200).json(listas)
 })
 
+router.get('/usuario/:usuarioId', async (req, res) => {
+  const listas = await listaService.listarComprasNaoFinalizadasDoUsuario(req.params.usuarioId)
+  res.status(200).json(listas)
+})
+
+router.get('/usuario-e-nome-produto/:usuarioId/:nomeProduto', async (req, res) => {
+  const listas = await listaService.testeChecaPorNomeeUsuario(req.params.usuarioId, req.params.nomeProduto)
+  res.status(200).json(listas)
+})
 
 router.post('/', [
-  body('ProdutoId').not().isEmpty().trim().escape().matches(/\d/),
   check('ProdutoId')
-  .not().isEmpty().matches(/\d/)
-  .withMessage('USUARIO ERRO NO CHECK'),
+    .not().isEmpty().matches(/\d/)
+    .withMessage('Produto ERRO NO CHECK'),
 
-  body('UsuarioId').not().isEmpty().trim().escape().matches(/\d/),
   check('UsuarioId')
     .not().isEmpty().matches(/\d/)
-    .withMessage('USUARIO ERRO NO CHECK'),
+    .withMessage('Usuario ERRO NO CHECK'),
 ],
   async (req, res) => {
-    // const errors = validationResult(req)
-    // if (!errors.isEmpty()) {
-    //   return res.status(400).json({errors: errors.array()})
-    // }
-    const listaCompra = req.body
-    console.log(listaCompra)
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()})
+    }
+
     try {
-      await listaService.adicionar(listaCompra)
+      await listaService.adicionarProdutosNaLista(req.body)
       res.status(201).send('Produto adicionado a lista')
     } catch(erro){
       res.status(400).send(erro.message)

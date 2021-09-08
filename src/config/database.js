@@ -4,5 +4,5 @@ module.exports = {
     port: 5432,
     database: 'luiza_code',
     username: 'postgres',
-    password: 'senha'
+    password: 'password'
 }

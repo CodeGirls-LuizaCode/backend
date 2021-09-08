@@ -34,17 +34,21 @@ router.post('/',
   }
 ),
 
-router.delete("/:id", (req, res) => {
-    const usuario = usuario.destroy({id: req.params.id}, (err) => {
-        if(err) return res.status(400).json({
-        error: true,
-        message: "Error: A pessoa usuária não foi apagada corretamente"
-        });
-        return res.json({
-        error: false,
-        message: "A pessoa usuária foi apagada corretamente"
-        })
-    })
-})
+
+
+router.delete('/:id', async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()})
+    }
+    try {
+      await usuarioService.deletar(req.params.id)
+      res.status(201).send('usuario deletado com sucesso!')
+    } catch(erro){
+      res.status(401).send(erro.message)
+    }
+
+  },
+)
 
 module.exports = router

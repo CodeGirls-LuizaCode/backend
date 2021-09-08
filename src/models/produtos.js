@@ -16,6 +16,10 @@ const produtos = ( sequelize, DataTypes) => {
             type: DataTypes.DOUBLE,
             allowNull: false
         },
+        estoque: {
+            type: DataTypes.NUMERIC,
+            allowNull: false
+        },
         image_prod: {
             type: DataTypes.STRING,
         },

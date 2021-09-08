@@ -31,11 +31,8 @@
    
 - 🧲 **Dependências**
   - [Babel](https://babeljs.io/)
-  - [Boostrap](https://getbootstrap.com/)
   - [React-DOM](https://pt-br.reactjs.org/docs/react-dom.html)
-  - [Reactstrap](https://reactstrap.github.io/)
   - [Node-sass](https://www.npmjs.com/package/node-sass)
-  - [Styled-Components](https://styled-components.com/)
 
 <hr>
 

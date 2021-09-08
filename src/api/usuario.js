@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     #swagger.tags = [Usuario]
     #swagger.description = 'Endpoint para obter listagem de todos usuarios.'
 
+<<<<<<< HEAD
     #swagger.responses[200] = {
       schema: { $ref: "#/definitions/usuario"},
       description: 'Usuarios encontrados',
@@ -31,6 +32,8 @@ router.get('/', async (req, res) => {
 })
 
 
+=======
+>>>>>>> islene
 router.post('/', 
   body('cpf').not().isEmpty().trim().escape(),
   check('cpf')
@@ -96,5 +99,21 @@ router.put('/:id',
   },
 )
 
+
+
+router.delete('/:id', async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()})
+    }
+    try {
+      await usuarioService.deletar(req.params.id)
+      res.status(201).send('usuario deletado com sucesso!')
+    } catch(erro){
+      res.status(401).send(erro.message)
+    }
+
+  },
+)
 
 module.exports = router

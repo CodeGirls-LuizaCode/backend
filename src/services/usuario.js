@@ -7,7 +7,10 @@ class UsuarioService {
     const usuario = await this.usuario.findAll()
     return usuario
   }
+<<<<<<< HEAD
   
+=======
+>>>>>>> islene
 
   async cadastrar(dadosUsuario){
     const usuario = await this.usuario.findOne({
@@ -30,5 +33,9 @@ class UsuarioService {
     return await this.usuario.update(dadosUsuario, { where: { id: id } })
   }
 
+  async deletar(id) {
+    return await this.usuario.destroy({ where: { id: id } })
+  }
+  
 }
 module.exports = UsuarioService

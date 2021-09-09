@@ -15,7 +15,7 @@ class UsuarioService {
       }
     })
     if (usuario != null){
-      throw new Error('Já existe um CPF cadastrado com esse nome!')
+      throw new Error('Já existe um usuário cadastrado com esse CPF!')
     }
     try {
       await this.usuario.create(dadosUsuario)
@@ -25,7 +25,13 @@ class UsuarioService {
     }
   }
 
+  //ATENÇÃO - ALTERADO - colocar na documentação que o cpf não pode ser alterado
   async alterar(id, dadosUsuario) {
+    if(dadosUsuario.cpf) { //elimina o cpf, caso seja enviado no body da atualização
+      delete dadosUsuario.cpf;
+    }
+    console.log(dadosUsuario);
+
     return await this.usuario.update(dadosUsuario, { where: { id: id } })
   }
 

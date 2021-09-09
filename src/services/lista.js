@@ -1,5 +1,6 @@
 const { lista, produtos } = require("../models");
 const ProdutoService = require('../services/produtos');
+const Op = require('sequelize').Op; //importado para uso do operador NÃO NULO
 
 const produtoService = new ProdutoService(produtos);
 
@@ -11,15 +12,15 @@ class ListaService {
 
   async listarCompras() { //lista todas as compras do usuário
     const lista = await this.lista.findAll({
-      include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa os relacionamentos pra isso)
+      include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa os relacionamentos de tabelas pra isso)
     });
+
     return lista;
   }
   
-  async listarComprasNaoFinalizadasDoUsuario(usuarioId) { 
-
+  async listarComprasNaoFinalizadasDoUsuario(usuarioId) { //lista apenas as compras não finalizadas do usuário, carrinho de compras
     const lista = await this.lista.findAll({
-      include: [{all: true}],
+      include: [{all: true}], //inclui todos os dados das tabelas associadas (Usa os relacionamentos de tabelas pra isso)
       where: [
         { UsuarioId: usuarioId },
         { data_finalizacao: null }
@@ -29,6 +30,18 @@ class ListaService {
     return lista;
   }
   
+  async listarComprasFinalizadasDoUsuario(usuarioId) { //lista apenas as compras finalizadas do usuário
+    const lista = await this.lista.findAll({
+      include: [{all: true}],
+      where: [
+        { UsuarioId: usuarioId },
+        { data_finalizacao: {[Op.not]: null}} //importado método Op do sequelize, no topo, para retornar tudo que NÃO é nulo
+      ]
+    });
+
+    return lista;
+  }
+
   async adicionarProdutosNaLista(listaCompra) {
     const lista = await this.lista.findOne({
       where: [
@@ -38,7 +51,7 @@ class ListaService {
       ]
     });
 
-    if(lista) { //SE LISTA EXISTE = TRUE, SENÃO É FALSE E PULA A VALIDAÇÃO
+    if(lista) { //se lista = true, o produto já existe no carrinho
       throw new Error('Este produto já existe na sua lista de compras.');
     }
 
@@ -59,7 +72,7 @@ class ListaService {
 
   async possuiProdutoComMesmoNome(listaCompra) {
     
-    // Procura o produto q o cliente está comprando em todos os produtos do BD
+    // Produto existe? Procura o produto q o cliente está comprando em todos os produtos do BD
     const produto = await this.produtoService.procuraProdutoId(listaCompra.ProdutoId)
     if(!produto) {
       throw new Error('Produto não existe!');
@@ -67,7 +80,7 @@ class ListaService {
 
     // Traz a Lista dos pedidos do cliente que não esteja finalizada
     const lista = await this.listarComprasNaoFinalizadasDoUsuario(listaCompra.UsuarioId);
-    if(lista.length === 0) { //lista vazia, não possui produto com o mesmo nome
+    if(lista.length === 0) { //se a lista está vazia, não possui produto com o mesmo nome
       return false;
     }
  
@@ -97,6 +110,52 @@ class ListaService {
     return lista.destroy();
   }
 
+  async numeroDePedidoRandomico(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  async finalizaLista(body) {
+    const lista = await this.lista.findAll({
+      where: [
+        { UsuarioId: body.UsuarioId },
+        { data_finalizacao: null }
+      ]
+    });
+
+    if(lista.length === 0) {
+      throw new Error('O usuário não possui produtos na lista!');
+    }
+
+    const numeroDoPedido = await this.numeroDePedidoRandomico(10000, 999999); //gera um n. de pedido randomico min e max
+
+    try {
+      for(let i = 0; i < lista.length; i++) {  
+        
+        await this.produtoService.diminuiEstoque(lista[i].ProdutoId, lista[i].quantidade);
+      
+        lista[i].data_finalizacao = new Date(); //todos os produtos da lista do usuário recebem a data atual
+        lista[i].numero_pedido = numeroDoPedido; //todos os produtos da lista do usuário recebem o n. do pedido
+        
+        if(body.LojaId) {
+          lista[i].LojaId = body.LojaId; 
+        }
+
+        await lista[i].save(); //método save percebe as alterações na lista e salva no BD
+      }
+    } catch (erro){
+      throw erro;
+    }
+
+    const response = {
+      "numero_pedido": numeroDoPedido,
+      "message": "Lista finalizada com sucesso"
+    }
+    
+    return response;
+    
+  }
 }
   
 module.exports = ListaService;

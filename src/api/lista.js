@@ -11,7 +11,12 @@ router.get('/', async (req, res) => {
   res.status(200).json(listas);
 })
 
-router.get('/usuario/:usuarioId', async (req, res) => {
+router.get('/compras/:usuarioId', async (req, res) => {
+  const listas = await listaService.listarComprasFinalizadasDoUsuario(req.params.usuarioId);
+  res.status(200).json(listas);
+})
+
+router.get('/carrinho/:usuarioId/', async (req, res) => {
   const listas = await listaService.listarComprasNaoFinalizadasDoUsuario(req.params.usuarioId);
   res.status(200).json(listas);
 })
@@ -19,11 +24,11 @@ router.get('/usuario/:usuarioId', async (req, res) => {
 router.post('/', [
   check('ProdutoId')
     .not().isEmpty().matches(/\d/)
-    .withMessage('Produto ERRO NO CHECK'),
+    .withMessage('ProdutoID Inválido'),
 
   check('UsuarioId')
     .not().isEmpty().matches(/\d/)
-    .withMessage('Usuario ERRO NO CHECK'),
+    .withMessage('UsuarioID Inválido'),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -45,6 +50,20 @@ router.delete('/:listaId',
     try {
       await listaService.deletaProdutoDaLista(req.params.listaId);
       res.status(200).send('Produto removido da lista de compras!');
+    } catch(erro) {
+      res.status(400).send(erro.message);
+    }
+  }
+)
+
+router.post('/finalizar-lista', 
+  check('UsuarioId')
+    .not().isEmpty().matches(/\d/)
+    .withMessage('UsuarioID Inválido'),
+  async (req, res) => {
+    try {
+      const pedido = await listaService.finalizaLista(req.body); //Pega o usuárioID do body da requisição
+      res.status(200).json(pedido); //retorna o json com numero do pedido e mensagem de sucesso.
     } catch(erro) {
       res.status(400).send(erro.message);
     }

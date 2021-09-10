@@ -7,21 +7,13 @@ const produtoService = new ProdutoService(produtos)
 
 router.get('/', async (req, res) => {
   /*
-    #swagger.tags = [Produtos]
-    #swagger.description = 'Endpoint para obter listagem de todos produto.'
+    #swagger.tags = ['Produtos']
+    #swagger.description = 'Endpoint para obter listagem de todos os produtos.'
 
     #swagger.responses[200] = {
       schema: { $ref: "#/definitions/produtos"},
       description: 'Produtos encontrados',
 
-    }
-
-    #swagger.responses[404] = {
-      description: 'Produtos não encontrados'
-    }
-
-    #swagger.responses[400] = {
-      description: 'Desculpe, tivemos um problema com a requisição'
     }
 
   */
@@ -30,6 +22,14 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:produtoId', async (req, res) => { //retorna o produto especificado no ID
+      /*
+      #swagger.tags = ['Produtos']
+      #swagger.description = 'Endpoint para retornar um produto por ID'
+      
+      #swager.responses[201] = {
+        description: 'Usuario criado com sucesso'
+
+    */
   const produtos = await produtoService.procuraProdutoId(req.params.produtoId)
   res.status(200).json(produtos)
   

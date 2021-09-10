@@ -38,7 +38,7 @@ router.get('/compras/:usuarioId', async (req, res) => {
   res.status(200).json(listas);
 })
 
-router.get('/carrinho/:usuarioId/', async (req, res) => {
+router.get('/carrinho/:usuarioId', async (req, res) => {
       /*
     #swagger.tags = ['Listas']
     #swagger.description = 'Endpoint para obter os produtos adicionados no carrinho do usuário.'
@@ -89,7 +89,7 @@ router.post('/', [
 
     try {
       await listaService.adicionarProdutosNaLista(req.body);
-      res.status(201).send('Produto adicionado a lista');
+      res.status(200).send('Produto adicionado a lista');
     } catch(erro) {
       res.status(400).send(erro.message);
     }

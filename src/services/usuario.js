@@ -4,7 +4,9 @@ class UsuarioService {
   }
 
   async listar () {
-    const usuario = await this.usuario.findAll()
+    const usuario = await this.usuario.findAll({
+      include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa os relacionamentos de tabelas pra isso)
+    });
     return usuario
   }
 
@@ -24,13 +26,11 @@ class UsuarioService {
       throw erro
     }
   }
-
-  //ATENÇÃO - ALTERADO - colocar na documentação que o cpf não pode ser alterado
+  
   async alterar(id, dadosUsuario) {
     if(dadosUsuario.cpf) { //elimina o cpf, caso seja enviado no body da atualização
       delete dadosUsuario.cpf;
     }
-    console.log(dadosUsuario);
 
     return await this.usuario.update(dadosUsuario, { where: { id: id } })
   }

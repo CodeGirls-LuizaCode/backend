@@ -7,16 +7,49 @@ const { body, check, validationResult } = require('express-validator');
 const listaService = new ListaService(lista);
 
 router.get('/', async (req, res) => {
+  /*
+    #swagger.tags = ['Listas']
+    #swagger.description = 'Endpoint para obter listagem de todas as compras.'
+
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/Lista"},
+      description: 'Listas Encontradas',
+
+    }
+
+  */
   const listas = await listaService.listarCompras();
   res.status(200).json(listas);
 })
 
 router.get('/compras/:usuarioId', async (req, res) => {
+    /*
+    #swagger.tags = ['Listas']
+    #swagger.description = 'Endpoint para obter todas as compras do usuário.'
+
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/Lista"},
+      description: 'Compras realizadas',
+
+    }
+
+  */
   const listas = await listaService.listarComprasFinalizadasDoUsuario(req.params.usuarioId);
   res.status(200).json(listas);
 })
 
 router.get('/carrinho/:usuarioId/', async (req, res) => {
+      /*
+    #swagger.tags = ['Listas']
+    #swagger.description = 'Endpoint para obter os produtos adicionados no carrinho do usuário.'
+
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/Lista"},
+      description: 'Produtos encontrados no carrinho do usuário',
+
+    }
+
+  */
   const listas = await listaService.listarComprasNaoFinalizadasDoUsuario(req.params.usuarioId);
   res.status(200).json(listas);
 })
@@ -30,6 +63,24 @@ router.post('/', [
     .not().isEmpty().matches(/\d/)
     .withMessage('UsuarioID Inválido'),
   ],
+        /*
+      #swagger.tags = ['Listas']
+      #swagger.description = 'Endpoint para criar uma lista de compras'
+      #swagger.parameters['AdicionarProdutoLista] = {
+        in: 'body',
+        description: 'Adiciona produto na lista de compras',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/AdicionarProdutoLista'}
+      }
+      #swager.responses[201] = {
+        description: 'Produto adicionado na lista com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Não foi possivel adicionar esse produto na lista'
+      }
+    */
+  
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -46,6 +97,21 @@ router.post('/', [
 )
 
 router.delete('/:listaId', 
+    /*
+    #swagger.tags = ['Listas']
+    #swagger.description = 'Endpoint para deletar uma lista de compras'
+
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/Lista"},
+      description: 'lista deletada com sucesso',
+
+    }
+
+    #swagger.responses[400] = {
+      description: 'Desculpe, tivemos um problema ao deletar a lista'
+    }
+
+  */
   async (req, res) => {
     try {
       await listaService.deletaProdutoDaLista(req.params.listaId);
@@ -60,7 +126,19 @@ router.post('/finalizar-lista',
   check('UsuarioId')
     .not().isEmpty().matches(/\d/)
     .withMessage('UsuarioID Inválido'),
+    /*
+      #swagger.tags = ['Listas']
+      #swagger.description = 'Endpoint para finalizar lista de compras'
+
+      #swager.responses[200] = {
+        description: 'Compra finalizada com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Desculpe, não foi possivel finalizar essa compra'
+      }
+    */
   async (req, res) => {
+    
     try {
       const pedido = await listaService.finalizaLista(req.body); //Pega o usuárioID do body da requisição
       res.status(200).json(pedido); //retorna o json com numero do pedido e mensagem de sucesso.

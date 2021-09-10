@@ -17,8 +17,9 @@ router.get('/', async (req, res) => {
     }
 
   */
-  const lojas = await lojaService.listar()
-  res.status(200).json(lojas)
+  const lojas = await lojaService.listar();
+  res.status(200).json(lojas);
 })
 
-module.exports = router
+
+module.exports = router;

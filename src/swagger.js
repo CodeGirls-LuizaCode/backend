@@ -21,7 +21,7 @@ const doc = {
             "description": "Endpoints relacionados aos recursos de produtos"
         },
         {
-            "name": "Usuario",
+            "name": "Usuarios",
             "description": "Endpoints relacionados aos recursos de usuarios"
         },
         {
@@ -65,7 +65,7 @@ const doc = {
             $senha: "12345636",
             createdAt: "2021-09-06T17:29:44.105Z",
             updatedAt: "2021-09-06T17:29:44.105Z",
-            enderecoId: 1
+            $enderecoId: 1
         },
         AtualizarUsuario: {
             nome: "Thais Minas",

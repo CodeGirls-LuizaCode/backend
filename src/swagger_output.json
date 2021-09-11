@@ -13,16 +13,16 @@
       "description": "Endpoints relacionados aos recursos de produtos"
     },
     {
-      "name": "Usuario",
+      "name": "Usuarios",
       "description": "Endpoints relacionados aos recursos de usuarios"
     },
     {
       "name": "Listas",
-      "description": "Endpoints relacionados a lista de compra de usuários"
+      "description": "Endpoints relacionados a lista de compras de usuários"
     },
     {
       "name": "Lojas",
-      "description": "Endpoints para listagem de lojas fisicas"
+      "description": "Endpoints para listagem de endereço das lojas fisicas"
     }
   ],
   "schemes": [
@@ -74,6 +74,117 @@
         }
       }
     },
+    "/usuarios/": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para obter listagem de todos usuarios.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuarios encontrados",
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para criar um novo usuario",
+        "parameters": [
+          {
+            "name": "novoUsuario",
+            "in": "body",
+            "description": "Cria novo usuário",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/novoUsuario"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Nome, email, cpf, data_nascimento, e senha são obrigatórios"
+          }
+        }
+      }
+    },
+    "/usuarios/{id}": {
+      "put": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para atualizar cadastro de um usuario",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "atualizarUsuario",
+            "in": "body",
+            "description": "Atualiza cadastro usuario",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/atualizarUsuario"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Não foi possivel atualizar esse cadastro"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para deletar um usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            },
+            "description": "deleta cadastro de usuário"
+          },
+          "201": {
+            "description": "Não foi possivel deletar esse usuário"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Desculpe, tivemos um problema ao deletar esse usuário"
+          }
+        }
+      }
+    },
     "/listas/": {
       "get": {
         "tags": [
@@ -94,12 +205,12 @@
         "tags": [
           "Listas"
         ],
-        "description": "Endpoint para criar uma lista de compras",
+        "description": "Endpoint para adicionar produto lista de compras",
         "parameters": [
           {
             "name": "AdicionarProdutoLista",
             "in": "body",
-            "description": "Adiciona produto na lista de compras",
+            "description": "Adiciona um produto na lista de compras",
             "required": true,
             "type": "object",
             "schema": {
@@ -122,7 +233,7 @@
         "tags": [
           "Listas"
         ],
-        "description": "Endpoint para obter todas as compras do usuário.",
+        "description": "Endpoint para obter todas as compras finalizadas do usuário.",
         "parameters": [
           {
             "name": "usuarioId",
@@ -146,7 +257,7 @@
         "tags": [
           "Listas"
         ],
-        "description": "Endpoint para obter os produtos adicionados no carrinho do usuário.",
+        "description": "Endpoint para obter os produtos adicionados no carrinho do usuário (compras não finalizadas)",
         "parameters": [
           {
             "name": "usuarioId",
@@ -355,7 +466,8 @@
         "email",
         "cpf",
         "data_nascimento",
-        "senha"
+        "senha",
+        "enderecoId"
       ]
     },
     "AtualizarUsuario": {

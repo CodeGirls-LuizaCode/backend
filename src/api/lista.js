@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 router.get('/compras/:usuarioId', async (req, res) => {
     /*
     #swagger.tags = ['Listas']
-    #swagger.description = 'Endpoint para obter todas as compras do usuário.'
+    #swagger.description = 'Endpoint para obter todas as compras finalizadas do usuário.'
 
     #swagger.responses[200] = {
       schema: { $ref: "#/definitions/Lista"},
@@ -41,7 +41,7 @@ router.get('/compras/:usuarioId', async (req, res) => {
 router.get('/carrinho/:usuarioId/', async (req, res) => {
       /*
     #swagger.tags = ['Listas']
-    #swagger.description = 'Endpoint para obter os produtos adicionados no carrinho do usuário.'
+    #swagger.description = 'Endpoint para obter os produtos adicionados no carrinho do usuário (compras não finalizadas)'
 
     #swagger.responses[200] = {
       schema: { $ref: "#/definitions/Lista"},
@@ -65,10 +65,10 @@ router.post('/', [
   ],
         /*
       #swagger.tags = ['Listas']
-      #swagger.description = 'Endpoint para criar uma lista de compras'
+      #swagger.description = 'Endpoint para adicionar produto lista de compras'
       #swagger.parameters['AdicionarProdutoLista] = {
         in: 'body',
-        description: 'Adiciona produto na lista de compras',
+        description: 'Adiciona um produto na lista de compras',
         required: true,
         type: 'object',
         schema: { $ref: '#/definitions/AdicionarProdutoLista'}

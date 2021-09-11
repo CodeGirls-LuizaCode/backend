@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 
     #swagger.responses[200] = {
       schema: { $ref: "#/definitions/Lojas"},
-      description: 'Lista endereço de todas as lojas fisicas',
+      description: 'Lojas fisicas encontradas',
 
     }
 

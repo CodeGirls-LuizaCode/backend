@@ -22,7 +22,11 @@
     },
     {
       "name": "Lojas",
-      "description": "Endpoints para listagem de endereço das lojas fisicas"
+      "description": "Endpoints para listagem das categorias dos produtos"
+    },
+    {
+      "name": "Categorias",
+      "description": "Endpoints para listagem das categorias dos produtos"
     }
   ],
   "schemes": [
@@ -142,13 +146,10 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "202": {
+            "description": "Accepted"
           },
           "400": {
-            "description": "Bad Request"
-          },
-          "401": {
             "description": "Não foi possivel atualizar esse cadastro"
           }
         }
@@ -168,19 +169,13 @@
         ],
         "responses": {
           "200": {
+            "description": "Usuário deletado com sucesso",
             "schema": {
               "$ref": "#/definitions/Usuario"
-            },
-            "description": "deleta cadastro de usuário"
-          },
-          "201": {
-            "description": "Não foi possivel deletar esse usuário"
+            }
           },
           "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Desculpe, tivemos um problema ao deletar esse usuário"
+            "description": "Não foi possivel deletar esse usuário"
           }
         }
       }
@@ -219,8 +214,8 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
           },
           "400": {
             "description": "Não foi possivel adicionar esse produto na lista"
@@ -252,7 +247,7 @@
         }
       }
     },
-    "/listas/carrinho/{usuarioId}/": {
+    "/listas/carrinho/{usuarioId}": {
       "get": {
         "tags": [
           "Listas"
@@ -298,7 +293,7 @@
             }
           },
           "400": {
-            "description": "Desculpe, tivemos um problema ao deletar a lista"
+            "description": "Não foi possivel deletar essa lista"
           }
         }
       }
@@ -315,7 +310,7 @@
             "description": "OK"
           },
           "400": {
-            "description": "Desculpe, não foi possivel finalizar essa compra"
+            "description": "Não foi possivel finalizar a compra"
           }
         }
       }
@@ -329,10 +324,24 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Lista endereço de todas as lojas fisicas",
+            "description": "Lojas fisicas encontradas",
             "schema": {
               "$ref": "#/definitions/Lojas"
             }
+          }
+        }
+      }
+    },
+    "/categorias/": {
+      "get": {
+        "tags": [
+          "Categorias"
+        ],
+        "description": "Endpoint para obter as categorias dos produtos.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -421,146 +430,6 @@
         }
       }
     },
-    "NovoUsuario": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "number",
-          "example": 1
-        },
-        "nome": {
-          "type": "string",
-          "example": "Thais Minas"
-        },
-        "email": {
-          "type": "string",
-          "example": "thais@gmail.com"
-        },
-        "cpf": {
-          "type": "string",
-          "example": "321.456.036-59"
-        },
-        "data_nascimento": {
-          "type": "number",
-          "example": 1965
-        },
-        "senha": {
-          "type": "string",
-          "example": "12345636"
-        },
-        "createdAt": {
-          "type": "string",
-          "example": "2021-09-06T17:29:44.105Z"
-        },
-        "updatedAt": {
-          "type": "string",
-          "example": "2021-09-06T17:29:44.105Z"
-        },
-        "enderecoId": {
-          "type": "number",
-          "example": 1
-        }
-      },
-      "required": [
-        "nome",
-        "email",
-        "cpf",
-        "data_nascimento",
-        "senha",
-        "enderecoId"
-      ]
-    },
-    "AtualizarUsuario": {
-      "type": "object",
-      "properties": {
-        "nome": {
-          "type": "string",
-          "example": "Thais Minas"
-        },
-        "email": {
-          "type": "string",
-          "example": "thais@gmail.com"
-        },
-        "data_nascimento": {
-          "type": "string",
-          "example": "1994-08-21"
-        },
-        "senha": {
-          "type": "string",
-          "example": "12345636"
-        },
-        "enderecoId": {
-          "type": "number",
-          "example": 1
-        }
-      }
-    },
-    "AdicionarProdutoLista": {
-      "type": "object",
-      "properties": {
-        "numero_pedido": {
-          "type": "number",
-          "example": 123123
-        },
-        "quantidade": {
-          "type": "number",
-          "example": 1
-        },
-        "LojaId": {
-          "type": "number",
-          "example": 1
-        },
-        "UsuarioId": {
-          "type": "number",
-          "example": 1
-        },
-        "ProdutoId": {
-          "type": "number",
-          "example": 6
-        }
-      }
-    },
-    "Lista": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "number",
-          "example": 1
-        },
-        "numero_pedido": {
-          "type": "number",
-          "example": 123123
-        },
-        "quantidade": {
-          "type": "number",
-          "example": 1
-        },
-        "data_entrega": {
-          "type": "string",
-          "example": "21-08-2021 20:57:55"
-        },
-        "data_finalizacao": {
-          "type": "string",
-          "example": "2021-09-09 20:57:55"
-        },
-        "createdAt": {
-          "type": "string",
-          "example": "2021-09-09 20:57:55"
-        },
-        "LojaId": {
-          "type": "number",
-          "example": 1
-        },
-        "UsuarioId": {
-          "type": "number",
-          "example": 1
-        },
-        "ProdutoId": {
-          "type": "number",
-          "example": 1
-        }
-      }
-    },
     "Lojas": {
       "type": "object",
       "properties": {
@@ -611,6 +480,102 @@
         "updatedAt": {
           "type": "string",
           "example": "2021-09-09 20:56:47"
+        }
+      }
+    },
+    "NovoUsuario": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Thais Minas"
+        },
+        "email": {
+          "type": "string",
+          "example": "thais@gmail.com"
+        },
+        "cpf": {
+          "type": "string",
+          "example": "321.456.036-59"
+        },
+        "data_nascimento": {
+          "type": "string",
+          "example": "1994-08-21"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345636"
+        },
+        "enderecoId": {
+          "type": "number",
+          "example": 1
+        }
+      },
+      "required": [
+        "nome",
+        "email",
+        "cpf",
+        "data_nascimento",
+        "senha",
+        "enderecoId"
+      ]
+    },
+    "AtualizarUsuario": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Thais Minas"
+        },
+        "email": {
+          "type": "string",
+          "example": "thais@gmail.com"
+        },
+        "cpf": {
+          "type": "string",
+          "example": "123.345.134-89"
+        },
+        "data_nascimento": {
+          "type": "string",
+          "example": "1994-08-21"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345636"
+        },
+        "enderecoId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "AdicionarProdutoLista": {
+      "type": "object",
+      "properties": {
+        "quantidade": {
+          "type": "number",
+          "example": 1
+        },
+        "UsuarioId": {
+          "type": "number",
+          "example": 1
+        },
+        "ProdutoId": {
+          "type": "number",
+          "example": 6
+        }
+      }
+    },
+    "FinalizarCompra": {
+      "type": "object",
+      "properties": {
+        "UsuarioId": {
+          "type": "number",
+          "example": 1
+        },
+        "LojaId": {
+          "type": "number",
+          "example": 1
         }
       }
     }

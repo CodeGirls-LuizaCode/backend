@@ -63,7 +63,7 @@ router.post('/', [
     .not().isEmpty().matches(/\d/)
     .withMessage('UsuarioID Inválido'),
   ],
-        /*
+      /*
       #swagger.tags = ['Listas']
       #swagger.description = 'Endpoint para adicionar produto lista de compras'
       #swagger.parameters['AdicionarProdutoLista] = {
@@ -73,7 +73,7 @@ router.post('/', [
         type: 'object',
         schema: { $ref: '#/definitions/AdicionarProdutoLista'}
       }
-      #swager.responses[201] = {
+      #swager.responses[200] = {
         description: 'Produto adicionado na lista com sucesso'
       }
       #swagger.responses[400] = {
@@ -108,7 +108,7 @@ router.delete('/:listaId',
     }
 
     #swagger.responses[400] = {
-      description: 'Desculpe, tivemos um problema ao deletar a lista'
+      description: 'Não foi possivel deletar essa lista'
     }
 
   */
@@ -134,7 +134,7 @@ router.post('/finalizar-lista',
         description: 'Compra finalizada com sucesso'
       }
       #swagger.responses[400] = {
-        description: 'Desculpe, não foi possivel finalizar essa compra'
+        description: 'Não foi possivel finalizar a compra'
       }
     */
   async (req, res) => {

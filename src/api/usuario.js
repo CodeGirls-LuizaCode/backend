@@ -77,10 +77,10 @@ router.put('/:id',
         type: 'object',
         schema: { $ref: '#/definitions/atualizarUsuario'}
       }
-      #swager.responses[201] = {
-        description: 'cadastro atualizado com sucesso'
+      #swager.responses[202] = {
+        description: 'Usuário atualizado com sucesso'
       }
-      #swagger.responses[401] = {
+      #swagger.responses[400] = {
         description: 'Não foi possivel atualizar esse cadastro'
       }
     */
@@ -109,15 +109,11 @@ router.delete('/:id', async (req, res) => {
 
     #swagger.responses[200] = {
       schema: { $ref: "#/definitions/Usuario"},
-      description: 'deleta cadastro de usuário'
+      description: 'Usuário deletado com sucesso'
     }
 
-    #swagger.responses[201] = {
+    #swagger.responses[400] = {
       description: 'Não foi possivel deletar esse usuário'
-    }
-
-    #swagger.responses[401] = {
-      description: 'Desculpe, tivemos um problema ao deletar esse usuário'
     }
 
   */

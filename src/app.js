@@ -3,9 +3,12 @@ const routers = require('./api')
 const { sequelize } = require('./models')
 
 const app = express('./swagger_output.json')
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 app.use('/', routers)
+
 
 
 //Config Swagger

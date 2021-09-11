@@ -1,9 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const { produtos } = require('../models')
-const ProdutoService = require('../services/produtos')
+const express = require('express');
+const router = express.Router();
+const { produtos } = require('../models');
+const ProdutoService = require('../services/produtos');
 
-const produtoService = new ProdutoService(produtos)
+const produtoService = new ProdutoService(produtos);
 
 router.get('/', async (req, res) => {
   /*
@@ -17,8 +17,8 @@ router.get('/', async (req, res) => {
     }
 
   */
-  const produtos = await produtoService.get()
-  res.status(200).json(produtos)
+  const produtos = await produtoService.get();
+  res.status(200).json(produtos);
 })
 
 router.get('/:produtoId', async (req, res) => { //retorna o produto especificado no ID
@@ -31,9 +31,9 @@ router.get('/:produtoId', async (req, res) => { //retorna o produto especificado
       }
 
     */
-  const produtos = await produtoService.procuraProdutoId(req.params.produtoId)
-  res.status(200).json(produtos)
+  const produtos = await produtoService.procuraProdutoId(req.params.produtoId);
+  res.status(200).json(produtos);
   
 })
 
-module.exports = router
+module.exports = router;

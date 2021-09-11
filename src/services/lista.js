@@ -12,7 +12,7 @@ class ListaService {
 
   async listarCompras() { //lista todas as compras do usuário
     const lista = await this.lista.findAll({
-      include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa os relacionamentos de tabelas pra isso)
+      include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa o relacionamentos belongsTo)
     });
 
     return lista;
@@ -20,7 +20,7 @@ class ListaService {
   
   async listarComprasNaoFinalizadasDoUsuario(usuarioId) { //lista apenas as compras não finalizadas do usuário, carrinho de compras
     const lista = await this.lista.findAll({
-      include: [{all: true}], //inclui todos os dados das tabelas associadas (Usa os relacionamentos de tabelas pra isso)
+      include: [{all: true}], //inclui todos os dados das tabelas associadas (Usa o relacionamentos belongsTo)
       where: [
         { UsuarioId: usuarioId },
         { data_finalizacao: null }
@@ -58,7 +58,7 @@ class ListaService {
     const jaExiste = await this.possuiProdutoComMesmoNome(listaCompra);
     console.log(jaExiste);
 
-    if (jaExiste) {
+    if(jaExiste) {
       throw new Error('ERRO: Mesmo tipo de produto já adicionado ao carrinho.');
     }
     

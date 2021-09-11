@@ -2,7 +2,7 @@
 // console.log(process.env.DATABASE_URL)
 
 module.exports = {
-    dialect: 'postgres',
+    dialect:'postgres',
     host: 'ec2-54-147-126-173.compute-1.amazonaws.com',
     port: 5432,
     database: 'dev5e6hj3j13vu',

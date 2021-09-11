@@ -5,7 +5,7 @@
     "title": "Code Girls API",
     "description": "Projeto final desenvolvido na 3ª edição do LuizaCode"
   },
-  "host": "localhost:3000",
+  "host": "https://codegilrs.herokuapp.com/",
   "basePath": "/",
   "tags": [
     {
@@ -51,7 +51,7 @@
           "200": {
             "description": "Produtos encontrados",
             "schema": {
-              "$ref": "#/definitions/produtos"
+              "$ref": "#/definitions/Produtos"
             }
           }
         }
@@ -107,7 +107,7 @@
             "required": true,
             "type": "object",
             "schema": {
-              "$ref": "#/definitions/novoUsuario"
+              "$ref": "#/definitions/NovoUsuario"
             }
           }
         ],
@@ -141,7 +141,7 @@
             "required": true,
             "type": "object",
             "schema": {
-              "$ref": "#/definitions/atualizarUsuario"
+              "$ref": "#/definitions/AtualizarUsuario"
             }
           }
         ],
@@ -189,10 +189,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Listas Encontradas",
-            "schema": {
-              "$ref": "#/definitions/Lista"
-            }
+            "description": "Listas Encontradas"
           }
         }
       },
@@ -239,10 +236,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Compras realizadas",
-            "schema": {
-              "$ref": "#/definitions/Lista"
-            }
+            "description": "Compras realizadas"
           }
         }
       }
@@ -263,10 +257,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Produtos encontrados no carrinho do usuário",
-            "schema": {
-              "$ref": "#/definitions/Lista"
-            }
+            "description": "Produtos encontrados no carrinho do usuário"
           }
         }
       }
@@ -287,10 +278,7 @@
         ],
         "responses": {
           "200": {
-            "description": "lista deletada com sucesso",
-            "schema": {
-              "$ref": "#/definitions/Lista"
-            }
+            "description": "lista deletada com sucesso"
           },
           "400": {
             "description": "Não foi possivel deletar essa lista"

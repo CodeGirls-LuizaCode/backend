@@ -40,7 +40,7 @@ router.post('/',
         description: 'Cria novo usuário',
         required: true,
         type: 'object',
-        schema: { $ref: '#/definitions/novoUsuario'}
+        schema: { $ref: '#/definitions/NovoUsuario'}
       }
       #swager.responses[201] = {
         description: 'Usuario criado com sucesso'
@@ -75,7 +75,7 @@ router.put('/:id',
         description: 'Atualiza cadastro usuario',
         required: true,
         type: 'object',
-        schema: { $ref: '#/definitions/atualizarUsuario'}
+        schema: { $ref: '#/definitions/AtualizarUsuario'}
       }
       #swager.responses[202] = {
         description: 'Usuário atualizado com sucesso'

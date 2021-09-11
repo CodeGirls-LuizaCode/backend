@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
     #swagger.description = 'Endpoint para obter listagem de todas as compras.'
 
     #swagger.responses[200] = {
-      schema: { $ref: "#/definitions/Lista"},
       description: 'Listas Encontradas',
 
     }
@@ -28,7 +27,6 @@ router.get('/compras/:usuarioId', async (req, res) => {
     #swagger.description = 'Endpoint para obter todas as compras finalizadas do usuário.'
 
     #swagger.responses[200] = {
-      schema: { $ref: "#/definitions/Lista"},
       description: 'Compras realizadas',
 
     }
@@ -44,7 +42,6 @@ router.get('/carrinho/:usuarioId', async (req, res) => {
     #swagger.description = 'Endpoint para obter os produtos adicionados no carrinho do usuário (compras não finalizadas)'
 
     #swagger.responses[200] = {
-      schema: { $ref: "#/definitions/Lista"},
       description: 'Produtos encontrados no carrinho do usuário',
 
     }
@@ -102,7 +99,6 @@ router.delete('/:listaId',
     #swagger.description = 'Endpoint para deletar uma lista de compras'
 
     #swagger.responses[200] = {
-      schema: { $ref: "#/definitions/Lista"},
       description: 'lista deletada com sucesso',
 
     }

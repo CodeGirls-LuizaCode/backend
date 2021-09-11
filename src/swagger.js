@@ -10,7 +10,7 @@ const doc = {
         title: "Code Girls API",
         description: "Projeto final desenvolvido na 3ª edição do LuizaCode",
     },
-    host: "https://codegilrs.herokuapp.com/",
+    host: "codegilrs.herokuapp.com",
     basePath: "/",
     schemes: ['http', 'https'],
     consumes: ['application/json'],

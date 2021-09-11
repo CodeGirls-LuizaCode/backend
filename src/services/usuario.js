@@ -7,10 +7,7 @@ class UsuarioService {
     const usuario = await this.usuario.findAll()
     return usuario
   }
-<<<<<<< HEAD
   
-=======
->>>>>>> islene
 
   async cadastrar(dadosUsuario){
     const usuario = await this.usuario.findOne({

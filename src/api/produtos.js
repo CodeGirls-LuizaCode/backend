@@ -6,9 +6,6 @@ const ProdutoService = require('../services/produtos');
 const produtoService = new ProdutoService(produtos);
 
 router.get('/', async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
   /*
     #swagger.tags = ['Produtos']
     #swagger.description = 'Endpoint para obter listagem de todos os produtos.'

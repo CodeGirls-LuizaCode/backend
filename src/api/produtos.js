@@ -26,8 +26,9 @@ router.get('/:produtoId', async (req, res) => { //retorna o produto especificado
       #swagger.tags = ['Produtos']
       #swagger.description = 'Endpoint para retornar um produto por ID'
       
-      #swager.responses[201] = {
+      #swager.responses[200] = {
         description: 'Usuario criado com sucesso'
+      }
 
     */
   const produtos = await produtoService.procuraProdutoId(req.params.produtoId);

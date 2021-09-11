@@ -8,11 +8,11 @@ const usuarioService = new UsuarioService(usuario);
 
 router.get('/', async (req, res) => {
   /*
-    #swagger.tags = ['Usuario']
+    #swagger.tags = ['Usuarios']
     #swagger.description = 'Endpoint para obter listagem de todos usuarios.'
 
     #swagger.responses[200] = {
-      schema: { $ref: "#/definitions/usuario"},
+      schema: { $ref: "#/definitions/Usuario"},
       description: 'Usuarios encontrados',
 
     }
@@ -33,7 +33,7 @@ router.post('/',
     .withMessage('CPF Inválido'),
   async (req, res) => {
     /*
-      #swagger.tags = ['Usuario']
+      #swagger.tags = ['Usuarios']
       #swagger.description = 'Endpoint para criar um novo usuario'
       #swagger.parameters['novoUsuario'] = {
         in: 'body',
@@ -63,14 +63,12 @@ router.post('/',
       res.status(400).send(erro.message);
     }
 
-  },
-
-)
+  })
 
 
 router.put('/:id', 
     /*
-      #swagger.tags = ['Usuario']
+      #swagger.tags = ['Usuarios']
       #swagger.description = 'Endpoint para atualizar cadastro de um usuario'
       #swagger.parameters['atualizarUsuario] = {
         in: 'body',
@@ -79,10 +77,10 @@ router.put('/:id',
         type: 'object',
         schema: { $ref: '#/definitions/atualizarUsuario'}
       }
-      #swager.responses[201] = {
-        description: 'cadastro atualizado com sucesso'
+      #swager.responses[202] = {
+        description: 'Usuário atualizado com sucesso'
       }
-      #swagger.responses[401] = {
+      #swagger.responses[400] = {
         description: 'Não foi possivel atualizar esse cadastro'
       }
     */
@@ -101,27 +99,21 @@ router.put('/:id',
       res.status(400).send(erro.message);
     }
 
-  },
-)
+  })
 
 
 router.delete('/:id', async (req, res) => {
-    /*
-    #swagger.tags = [Usuario]
+  /*
+    #swagger.tags = ['Usuarios']
     #swagger.description = 'Endpoint para deletar um usuário.'
 
     #swagger.responses[200] = {
-      schema: { $ref: "#/definitions/usuario"},
-      description: 'delata cadastro de usuário',
-
+      schema: { $ref: "#/definitions/Usuario"},
+      description: 'Usuário deletado com sucesso'
     }
 
-    #swagger.responses[201] = {
-      description: Não foi possivel deletar esse usuário'
-    }
-
-    #swagger.responses[401] = {
-      description: 'Desculpe, tivemos um problema ao deletar esse usuário'
+    #swagger.responses[400] = {
+      description: 'Não foi possivel deletar esse usuário'
     }
 
   */
@@ -136,8 +128,7 @@ router.delete('/:id', async (req, res) => {
       res.status(400).send(erro.message);
     }
 
-  },
-)
+  })
 
 
 module.exports = router

@@ -21,7 +21,7 @@ const doc = {
             "description": "Endpoints relacionados aos recursos de produtos"
         },
         {
-            "name": "Usuario",
+            "name": "Usuarios",
             "description": "Endpoints relacionados aos recursos de usuarios"
         },
         {
@@ -30,7 +30,11 @@ const doc = {
         },
         {
             "name": "Lojas",
-            "description": "Endpoints para listagem de endereço das lojas fisicas"
+            "description": "Endpoints para listagem das categorias dos produtos"
+        },
+        {
+            "name": "Categorias",
+            "description": "Endpoints para listagem das categorias dos produtos"
         },
     ],
     definitions: {
@@ -56,42 +60,6 @@ const doc = {
             updatedAt: "2021-09-06T17:29:44.105Z",
             enderecoId: 1
         },
-        NovoUsuario: {
-            id: 1,
-            $nome: "Thais Minas",
-            $email: "thais@gmail.com",
-            $cpf: "321.456.036-59",
-            $data_nascimento: 1994-08-21,
-            $senha: "12345636",
-            createdAt: "2021-09-06T17:29:44.105Z",
-            updatedAt: "2021-09-06T17:29:44.105Z",
-            enderecoId: 1
-        },
-        AtualizarUsuario: {
-            nome: "Thais Minas",
-            email: "thais@gmail.com",
-            data_nascimento: '1994-08-21',
-            senha: "12345636",
-            enderecoId: 1
-        },
-        AdicionarProdutoLista: {
-            numero_pedido: 123123,
-            quantidade: 1,
-            LojaId: 1,
-            UsuarioId: 1,
-            ProdutoId: 6,
-        },
-        Lista: {
-            id: 1,
-            numero_pedido: 123123,
-            quantidade: 1,
-            data_entrega: '21-08-2021 20:57:55',
-            data_finalizacao: '2021-09-09 20:57:55',
-            createdAt: '2021-09-09 20:57:55',
-            LojaId: 1,
-            UsuarioId: 1,
-            ProdutoId: 1
-        },
         Lojas: {
             id: 1,
             nome: 'Loja Centro',
@@ -105,7 +73,32 @@ const doc = {
             telefone: '319888-8888',
             createdAt: '2021-09-09 20:56:47',
             updatedAt: '2021-09-09 20:56:47'
-        }
+        },
+        NovoUsuario: {
+            $nome: "Thais Minas",
+            $email: "thais@gmail.com",
+            $cpf: "321.456.036-59",
+            $data_nascimento: "1994-08-21",
+            $senha: "12345636",
+            $enderecoId: 1
+        },
+        AtualizarUsuario: {
+            nome: "Thais Minas",
+            email: "thais@gmail.com",
+            cpf: "123.345.134-89",
+            data_nascimento: "1994-08-21",
+            senha: "12345636",
+            enderecoId: 1
+        },
+        AdicionarProdutoLista: {
+            quantidade: 1,
+            UsuarioId: 1,
+            ProdutoId: 6,
+        },
+        FinalizarCompra: {
+            UsuarioId: 1,
+            LojaId: 1,
+        },
     }
 }
 

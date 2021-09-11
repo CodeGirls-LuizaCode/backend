@@ -10,15 +10,23 @@
   "tags": [
     {
       "name": "Produtos",
-      "description": "Endpoints relacionados ao recurso de produtos."
+      "description": "Endpoints relacionados aos recursos de produtos"
     },
     {
-      "name": "Usuario",
-      "description": "Endpoints relacionados ao recurso de usuarios."
+      "name": "Usuarios",
+      "description": "Endpoints relacionados aos recursos de usuarios"
     },
     {
-      "name": "Lista",
-      "description": "Endpoints relacionados ao recurso de lista de compra do usuário."
+      "name": "Listas",
+      "description": "Endpoints relacionados a lista de compras de usuários"
+    },
+    {
+      "name": "Lojas",
+      "description": "Endpoints para listagem das categorias dos produtos"
+    },
+    {
+      "name": "Categorias",
+      "description": "Endpoints para listagem das categorias dos produtos"
     }
   ],
   "schemes": [
@@ -34,8 +42,10 @@
   "paths": {
     "/produtos/": {
       "get": {
-        "tags": [],
-        "description": "Endpoint para obter listagem de todos produto.",
+        "tags": [
+          "Produtos"
+        ],
+        "description": "Endpoint para obter listagem de todos os produtos.",
         "parameters": [],
         "responses": {
           "200": {
@@ -43,46 +53,57 @@
             "schema": {
               "$ref": "#/definitions/produtos"
             }
-          },
-          "400": {
-            "description": "Desculpe, tivemos um problema com a requisição"
-          },
-          "404": {
-            "description": "Produtos não encontrados"
+          }
+        }
+      }
+    },
+    "/produtos/{produtoId}": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "description": "Endpoint para retornar um produto por ID",
+        "parameters": [
+          {
+            "name": "produtoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
     "/usuarios/": {
       "get": {
-        "tags": [],
+        "tags": [
+          "Usuarios"
+        ],
         "description": "Endpoint para obter listagem de todos usuarios.",
         "parameters": [],
         "responses": {
           "200": {
             "description": "Usuarios encontrados",
             "schema": {
-              "$ref": "#/definitions/usuario"
+              "$ref": "#/definitions/Usuario"
             }
-          },
-          "400": {
-            "description": "Desculpe, tivemos um problema com a requisição"
-          },
-          "404": {
-            "description": "usuario não encontrado"
           }
         }
       },
       "post": {
         "tags": [
-          "Usuario"
+          "Usuarios"
         ],
-        "description": "Endpoint para criar um usuario",
+        "description": "Endpoint para criar um novo usuario",
         "parameters": [
           {
             "name": "novoUsuario",
             "in": "body",
-            "description": "Informações do usuario",
+            "description": "Cria novo usuário",
             "required": true,
             "type": "object",
             "schema": {
@@ -100,34 +121,234 @@
         }
       }
     },
+    "/usuarios/{id}": {
+      "put": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para atualizar cadastro de um usuario",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "atualizarUsuario",
+            "in": "body",
+            "description": "Atualiza cadastro usuario",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/atualizarUsuario"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Não foi possivel atualizar esse cadastro"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para deletar um usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário deletado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          },
+          "400": {
+            "description": "Não foi possivel deletar esse usuário"
+          }
+        }
+      }
+    },
     "/listas/": {
       "get": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para obter listagem de todas as compras.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Listas Encontradas",
+            "schema": {
+              "$ref": "#/definitions/Lista"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para adicionar produto lista de compras",
+        "parameters": [
+          {
+            "name": "AdicionarProdutoLista",
+            "in": "body",
+            "description": "Adiciona um produto na lista de compras",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AdicionarProdutoLista"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Não foi possivel adicionar esse produto na lista"
+          }
+        }
+      }
+    },
+    "/listas/compras/{usuarioId}": {
+      "get": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para obter todas as compras finalizadas do usuário.",
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compras realizadas",
+            "schema": {
+              "$ref": "#/definitions/Lista"
+            }
+          }
+        }
+      }
+    },
+    "/listas/carrinho/{usuarioId}": {
+      "get": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para obter os produtos adicionados no carrinho do usuário (compras não finalizadas)",
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produtos encontrados no carrinho do usuário",
+            "schema": {
+              "$ref": "#/definitions/Lista"
+            }
+          }
+        }
+      }
+    },
+    "/listas/{listaId}": {
+      "delete": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para deletar uma lista de compras",
+        "parameters": [
+          {
+            "name": "listaId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "lista deletada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Lista"
+            }
+          },
+          "400": {
+            "description": "Não foi possivel deletar essa lista"
+          }
+        }
+      }
+    },
+    "/listas/finalizar-lista": {
+      "post": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para finalizar lista de compras",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Não foi possivel finalizar a compra"
+          }
+        }
+      }
+    },
+    "/lojas/": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "description": "Endpoint para obter a listagem de todas as lojas",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Lojas fisicas encontradas",
+            "schema": {
+              "$ref": "#/definitions/Lojas"
+            }
+          }
+        }
+      }
+    },
+    "/categorias/": {
+      "get": {
+        "tags": [
+          "Categorias"
+        ],
+        "description": "Endpoint para obter as categorias dos produtos.",
         "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      },
-      "post": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
       }
     }
   },
   "definitions": {
-    "produtos": {
+    "Produtos": {
       "type": "object",
       "properties": {
         "id": {
@@ -168,7 +389,7 @@
         }
       }
     },
-    "usuario": {
+    "Usuario": {
       "type": "object",
       "properties": {
         "id": {
@@ -209,13 +430,62 @@
         }
       }
     },
-    "novoUsuario": {
+    "Lojas": {
       "type": "object",
       "properties": {
         "id": {
           "type": "number",
           "example": 1
         },
+        "nome": {
+          "type": "string",
+          "example": "Loja Centro"
+        },
+        "logradouro": {
+          "type": "string",
+          "example": "Av. Amazonas"
+        },
+        "numero": {
+          "type": "number",
+          "example": 2000
+        },
+        "complemento": {
+          "type": "string",
+          "example": "17 andar"
+        },
+        "bairro": {
+          "type": "string",
+          "example": "Centro"
+        },
+        "cidade": {
+          "type": "string",
+          "example": "Belo Horizonte"
+        },
+        "estado": {
+          "type": "string",
+          "example": "MG"
+        },
+        "cep": {
+          "type": "string",
+          "example": "31800-000"
+        },
+        "telefone": {
+          "type": "string",
+          "example": "319888-8888"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-09-09 20:56:47"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-09-09 20:56:47"
+        }
+      }
+    },
+    "NovoUsuario": {
+      "type": "object",
+      "properties": {
         "nome": {
           "type": "string",
           "example": "Thais Minas"
@@ -229,20 +499,12 @@
           "example": "321.456.036-59"
         },
         "data_nascimento": {
-          "type": "number",
-          "example": 1965
+          "type": "string",
+          "example": "1994-08-21"
         },
         "senha": {
           "type": "string",
           "example": "12345636"
-        },
-        "createdAt": {
-          "type": "string",
-          "example": "2021-09-06T17:29:44.105Z"
-        },
-        "updatedAt": {
-          "type": "string",
-          "example": "2021-09-06T17:29:44.105Z"
         },
         "enderecoId": {
           "type": "number",
@@ -254,8 +516,68 @@
         "email",
         "cpf",
         "data_nascimento",
-        "senha"
+        "senha",
+        "enderecoId"
       ]
+    },
+    "AtualizarUsuario": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Thais Minas"
+        },
+        "email": {
+          "type": "string",
+          "example": "thais@gmail.com"
+        },
+        "cpf": {
+          "type": "string",
+          "example": "123.345.134-89"
+        },
+        "data_nascimento": {
+          "type": "string",
+          "example": "1994-08-21"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345636"
+        },
+        "enderecoId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "AdicionarProdutoLista": {
+      "type": "object",
+      "properties": {
+        "quantidade": {
+          "type": "number",
+          "example": 1
+        },
+        "UsuarioId": {
+          "type": "number",
+          "example": 1
+        },
+        "ProdutoId": {
+          "type": "number",
+          "example": 6
+        }
+      }
+    },
+    "FinalizarCompra": {
+      "type": "object",
+      "properties": {
+        "UsuarioId": {
+          "type": "number",
+          "example": 1
+        },
+        "LojaId": {
+          "type": "number",
+          "example": 1
+        }
+      }
     }
   }
 }

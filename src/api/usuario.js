@@ -1,49 +1,43 @@
-const express = require('express')
-const { body, check, validationResult } = require('express-validator')
-const router = express.Router()
-const { usuario } = require('../models')
-const UsuarioService = require('../services/usuario')
+const express = require('express');
+const { body, check, validationResult } = require('express-validator');
+const router = express.Router();
+const { usuario } = require('../models');
+const UsuarioService = require('../services/usuario');
 
-const usuarioService = new UsuarioService(usuario)
+const usuarioService = new UsuarioService(usuario);
 
 router.get('/', async (req, res) => {
-    /*
-    #swagger.tags = [Usuario]
+  /*
+    #swagger.tags = ['Usuarios']
     #swagger.description = 'Endpoint para obter listagem de todos usuarios.'
 
     #swagger.responses[200] = {
-      schema: { $ref: "#/definitions/usuario"},
+      schema: { $ref: "#/definitions/Usuario"},
       description: 'Usuarios encontrados',
 
     }
 
-    #swagger.responses[404] = {
-      description: 'usuario não encontrado'
-    }
-
-    #swagger.responses[400] = {
-      description: 'Desculpe, tivemos um problema com a requisição'
-    }
-
   */
-  const usuario = await usuarioService.listar()
-  res.status(200).json(usuario)
+  const usuario = await usuarioService.listar();
+  res.status(200).json(usuario);
 })
 
 
 router.post('/', 
-  body('cpf').not().isEmpty().trim().escape(),
   check('cpf')
-    .not().isEmpty()
+    .not()
+    .isEmpty()
+    .trim()
+    .escape()
     .matches('[0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2}')
-    .withMessage('Cpf Invalido'),
+    .withMessage('CPF Inválido'),
   async (req, res) => {
     /*
-      #swagger.tags = ['Usuario']
-      #swagger.description = 'Endpoint para criar um usuario'
-      #swagger.parameters['novoUsuario] = {
+      #swagger.tags = ['Usuarios']
+      #swagger.description = 'Endpoint para criar um novo usuario'
+      #swagger.parameters['novoUsuario'] = {
         in: 'body',
-        description: 'Informações do usuario',
+        description: 'Cria novo usuário',
         required: true,
         type: 'object',
         schema: { $ref: '#/definitions/novoUsuario'}
@@ -56,61 +50,85 @@ router.post('/',
       }
     */
 
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).json({errors: errors.array()})
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()});
     }
-    const dadosUsuario = req.body
-    console.log(dadosUsuario)
+    const dadosUsuario = req.body;
+    
     try {
-      await usuarioService.cadastrar(dadosUsuario)
-      res.status(201).send('usuario cadastrado com sucesso!')
-    } catch(erro){
-      res.status(400).send(erro.message)
+      await usuarioService.cadastrar(dadosUsuario);
+      res.status(201).send('Usuário cadastrado com sucesso!');
+    } catch(erro) {
+      res.status(400).send(erro.message);
     }
 
-  },
-
-)
+  })
 
 
 router.put('/:id', 
-  body('cpf').not().isEmpty().trim().escape(),
-  check('cpf')
-    .not().isEmpty()
-    .matches('[0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2}')
-    .withMessage('Cpf Invalido'),
+    /*
+      #swagger.tags = ['Usuarios']
+      #swagger.description = 'Endpoint para atualizar cadastro de um usuario'
+      #swagger.parameters['atualizarUsuario] = {
+        in: 'body',
+        description: 'Atualiza cadastro usuario',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/atualizarUsuario'}
+      }
+      #swager.responses[202] = {
+        description: 'Usuário atualizado com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Não foi possivel atualizar esse cadastro'
+      }
+    */
+ 
+
   async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).json({errors: errors.array()})
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()});
     }
-    const dadosUsuario = req.body
+    const dadosUsuario = req.body;
     try {
-      await usuarioService.alterar(req.params.id, dadosUsuario)
-      res.status(201).send('usuario Atualizado com sucesso!')
-    } catch(erro){
-      res.status(401).send(erro.message)
+      await usuarioService.alterar(req.params.id, dadosUsuario);
+      res.status(202).send('Usuário atualizado com sucesso!');
+    } catch(erro) {
+      res.status(400).send(erro.message);
     }
 
-  },
-)
-
+  })
 
 
 router.delete('/:id', async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).json({errors: errors.array()})
-    }
-    try {
-      await usuarioService.deletar(req.params.id)
-      res.status(201).send('usuario deletado com sucesso!')
-    } catch(erro){
-      res.status(401).send(erro.message)
+  /*
+    #swagger.tags = ['Usuarios']
+    #swagger.description = 'Endpoint para deletar um usuário.'
+
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/Usuario"},
+      description: 'Usuário deletado com sucesso'
     }
 
-  },
-)
+    #swagger.responses[400] = {
+      description: 'Não foi possivel deletar esse usuário'
+    }
+
+  */
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()});
+    }
+    try {
+      await usuarioService.deletar(req.params.id);
+      res.status(200).send('Usuário deletado com sucesso!');
+    } catch(erro) {
+      res.status(400).send(erro.message);
+    }
+
+  })
+
 
 module.exports = router

@@ -4,10 +4,11 @@ class UsuarioService {
   }
 
   async listar () {
-    const usuario = await this.usuario.findAll()
+    const usuario = await this.usuario.findAll({
+      include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa os relacionamentos de tabelas pra isso)
+    });
     return usuario
   }
-  
 
   async cadastrar(dadosUsuario){
     const usuario = await this.usuario.findOne({
@@ -16,7 +17,7 @@ class UsuarioService {
       }
     })
     if (usuario != null){
-      throw new Error('Já existe um CPF cadastrado com esse nome!')
+      throw new Error('Já existe um usuário cadastrado com esse CPF!')
     }
     try {
       await this.usuario.create(dadosUsuario)
@@ -25,8 +26,12 @@ class UsuarioService {
       throw erro
     }
   }
-
+  
   async alterar(id, dadosUsuario) {
+    if(dadosUsuario.cpf) { //elimina o cpf, caso seja enviado no body da atualização
+      delete dadosUsuario.cpf;
+    }
+
     return await this.usuario.update(dadosUsuario, { where: { id: id } })
   }
 

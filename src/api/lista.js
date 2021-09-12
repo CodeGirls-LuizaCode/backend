@@ -104,7 +104,7 @@ router.delete('/:listaId',
     }
 
     #swagger.responses[400] = {
-      description: 'Não foi possivel deletar essa lista'
+      description: 'Não foi possivel deletar o produto da lista'
     }
 
   */

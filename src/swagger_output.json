@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Code Girls API",
-    "description": "Projeto final desenvolvido na 3ª edição do LuizaCode"
+    "title": "Code Girls API - Omni Channel",
+    "description": "Projeto proposto no encerramento da 3ª edição do LuizaCode, turma NodeJS"
   },
   "host": "code-girls.herokuapp.com",
   "basePath": "/",
@@ -33,6 +33,14 @@
     "http",
     "https"
   ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "authorization",
+      "description": "Insira seu token para garantir acesso aos endpoints"
+    }
+  },
   "consumes": [
     "application/json"
   ],
@@ -91,6 +99,9 @@
             "schema": {
               "$ref": "#/definitions/Usuario"
             }
+          },
+          "400": {
+            "description": "Token inválido"
           }
         }
       },
@@ -117,6 +128,48 @@
           },
           "400": {
             "description": "Nome, email, cpf, data_nascimento, e senha são obrigatórios"
+          }
+        }
+      }
+    },
+    "/usuarios/login": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para o login do usuário, disponibilizando o token de acesso aos recursos de pedido.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "senha": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login efetuado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          },
+          "400": {
+            "description": "Houve algum erro na requisição"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Usuário não cadastrado"
           }
         }
       }
@@ -190,8 +243,16 @@
         "responses": {
           "200": {
             "description": "Listas Encontradas"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -216,8 +277,16 @@
           },
           "400": {
             "description": "Não foi possivel adicionar esse produto na lista"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/listas/compras/{usuarioId}": {
@@ -237,8 +306,16 @@
         "responses": {
           "200": {
             "description": "Compras realizadas"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/listas/carrinho/{usuarioId}": {
@@ -258,8 +335,16 @@
         "responses": {
           "200": {
             "description": "Produtos encontrados no carrinho do usuário"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/listas/{listaId}": {
@@ -280,10 +365,15 @@
           "200": {
             "description": "lista deletada com sucesso"
           },
-          "400": {
-            "description": "Não foi possivel deletar essa lista"
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/listas/finalizar-lista": {
@@ -297,10 +387,15 @@
           "200": {
             "description": "OK"
           },
-          "400": {
-            "description": "Não foi possivel finalizar a compra"
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/lojas/": {

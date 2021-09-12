@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { produtos } = require('../models');
 const ProdutoService = require('../services/produtos');
+const auth = require('./autenticacao');
 
 const produtoService = new ProdutoService(produtos);
 

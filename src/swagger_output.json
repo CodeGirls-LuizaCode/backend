@@ -267,7 +267,7 @@
         "tags": [
           "Listas"
         ],
-        "description": "Endpoint para deletar uma lista de compras",
+        "description": "Endpoint para deletar um produto da lista de compras",
         "parameters": [
           {
             "name": "listaId",
@@ -278,7 +278,7 @@
         ],
         "responses": {
           "200": {
-            "description": "lista deletada com sucesso"
+            "description": "Produto deletado da lista com sucesso"
           },
           "400": {
             "description": "Não foi possivel deletar essa lista"

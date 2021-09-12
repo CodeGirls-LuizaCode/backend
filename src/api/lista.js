@@ -96,10 +96,10 @@ router.post('/', [
 router.delete('/:listaId', 
     /*
     #swagger.tags = ['Listas']
-    #swagger.description = 'Endpoint para deletar uma lista de compras'
+    #swagger.description = 'Endpoint para deletar um produto da lista de compras'
 
     #swagger.responses[200] = {
-      description: 'lista deletada com sucesso',
+      description: 'Produto deletado da lista com sucesso',
 
     }
 

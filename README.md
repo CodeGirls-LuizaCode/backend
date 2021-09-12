@@ -26,13 +26,9 @@
   - [NodeJS](https://nodejs.org/en/)
   - HTML5
   - [CSS3](https://developer.mozilla.org/pt-BR/docs/Web/CSS/)
-  - Frameworks
-    - [React](https://pt-br.reactjs.org/)
-    - [Next.JS](https://nextjs.org/)
 
 - 🧲 **Dependências**
   - [Babel](https://babeljs.io/)
-  - [React-DOM](https://pt-br.reactjs.org/docs/react-dom.html)
   - [Node-sass](https://www.npmjs.com/package/node-sass)
 
 <hr>

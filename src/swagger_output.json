@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Code Girls API",
-    "description": "Projeto final desenvolvido na 3ª edição do LuizaCode"
+    "title": "Code Girls API - Omni Channel",
+    "description": "Projeto proposto no encerramento da 3ª edição do LuizaCode, turma NodeJS"
   },
   "host": "code-girls.herokuapp.com",
   "basePath": "/",
@@ -33,6 +33,14 @@
     "http",
     "https"
   ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "authorization",
+      "description": "Insira seu token para garantir acesso aos endpoints"
+    }
+  },
   "consumes": [
     "application/json"
   ],
@@ -91,6 +99,9 @@
             "schema": {
               "$ref": "#/definitions/Usuario"
             }
+          },
+          "400": {
+            "description": "Token inválido"
           }
         }
       },
@@ -117,6 +128,48 @@
           },
           "400": {
             "description": "Nome, email, cpf, data_nascimento, e senha são obrigatórios"
+          }
+        }
+      }
+    },
+    "/usuarios/login": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "description": "Endpoint para o login do usuário, disponibilizando o token de acesso aos recursos de pedido.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "senha": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login efetuado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          },
+          "400": {
+            "description": "Houve algum erro na requisição"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Usuário não cadastrado"
           }
         }
       }
@@ -176,129 +229,6 @@
           },
           "400": {
             "description": "Não foi possivel deletar esse usuário"
-          }
-        }
-      }
-    },
-    "/listas/": {
-      "get": {
-        "tags": [
-          "Listas"
-        ],
-        "description": "Endpoint para obter listagem de todas as compras.",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Listas Encontradas"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Listas"
-        ],
-        "description": "Endpoint para adicionar produto lista de compras",
-        "parameters": [
-          {
-            "name": "AdicionarProdutoLista",
-            "in": "body",
-            "description": "Adiciona um produto na lista de compras",
-            "required": true,
-            "type": "object",
-            "schema": {
-              "$ref": "#/definitions/AdicionarProdutoLista"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Não foi possivel adicionar esse produto na lista"
-          }
-        }
-      }
-    },
-    "/listas/compras/{usuarioId}": {
-      "get": {
-        "tags": [
-          "Listas"
-        ],
-        "description": "Endpoint para obter todas as compras finalizadas do usuário.",
-        "parameters": [
-          {
-            "name": "usuarioId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Compras realizadas"
-          }
-        }
-      }
-    },
-    "/listas/carrinho/{usuarioId}": {
-      "get": {
-        "tags": [
-          "Listas"
-        ],
-        "description": "Endpoint para obter os produtos adicionados no carrinho do usuário (compras não finalizadas)",
-        "parameters": [
-          {
-            "name": "usuarioId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Produtos encontrados no carrinho do usuário"
-          }
-        }
-      }
-    },
-    "/listas/{listaId}": {
-      "delete": {
-        "tags": [
-          "Listas"
-        ],
-        "description": "Endpoint para deletar um produto da lista de compras",
-        "parameters": [
-          {
-            "name": "listaId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Produto deletado da lista com sucesso"
-          },
-          "400": {
-            "description": "Não foi possivel deletar o produto da lista"
-          }
-        }
-      }
-    },
-    "/listas/finalizar-lista": {
-      "post": {
-        "tags": [
-          "Listas"
-        ],
-        "description": "Endpoint para finalizar lista de compras",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Não foi possivel finalizar a compra"
           }
         }
       }
@@ -564,6 +494,15 @@
         "LojaId": {
           "type": "number",
           "example": 1
+        }
+      }
+    },
+    "RetirarPedido": {
+      "type": "object",
+      "properties": {
+        "numero_pedido": {
+          "type": "number",
+          "example": 12356549
         }
       }
     }

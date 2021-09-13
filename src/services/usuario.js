@@ -3,6 +3,7 @@ class UsuarioService {
     this.usuario = UsuarioModel
   }
 
+
   async listar () {
     const usuario = await this.usuario.findAll({
       include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa os relacionamentos de tabelas pra isso)
@@ -25,6 +26,7 @@ class UsuarioService {
       console.log(erro.message)
       throw erro
     }
+
   }
   
   async alterar(id, dadosUsuario) {

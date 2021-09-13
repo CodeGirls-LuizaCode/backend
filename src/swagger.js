@@ -7,8 +7,8 @@ const endpointFiles = ['./src/app.js']
 const doc = {
     info: {
         version: "1.0.0",
-        title: "Code Girls API",
-        description: "Projeto final desenvolvido na 3ª edição do LuizaCode",
+        title: "Code Girls API - Omni Channel",
+        description: "Projeto proposto no encerramento da 3ª edição do LuizaCode, turma NodeJS",
     },
     host: "code-girls.herokuapp.com",
     basePath: "/",
@@ -99,7 +99,18 @@ const doc = {
             UsuarioId: 1,
             LojaId: 1,
         },
-    }
+        RetirarPedido: {
+            numero_pedido: 12356549
+        },
+    },
+    securityDefinitions: {
+        apiKeyAuth: {
+          type: 'apiKey',
+          in: 'header', // can be 'header', 'query' or 'cookie'
+          name: 'authorization', // name of the header, query parameter or cookie
+          description: 'Insira seu token para garantir acesso aos endpoints'
+        },
+    },
 }
 
 

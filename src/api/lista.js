@@ -116,7 +116,7 @@ router.post('/', auth, [
       #swagger.security = [{
         "apiKeyAuth": []
       }]
-      #swager.responses[200] = {
+      #swagger.responses[200] = {
         description: 'Produto adicionado na lista com sucesso'
       }
       #swagger.responses[400] = {
@@ -190,7 +190,7 @@ router.post('/finalizar-lista', auth,
         "apiKeyAuth": []
       }]
 
-      #swager.responses[200] = {
+      #swagger.responses[200] = {
         description: 'Compra finalizada com sucesso'
       }
       #swagger.responses[401] = {
@@ -216,11 +216,11 @@ router.post('/entrega', auth,
       #swagger.tags = ['Listas']
       #swagger.description = 'Endpoint para registrar a retirada do pedido'
 
-      #swager.responses[200] = {
+      #swagger.responses[200] = {
         description: 'Produto retirado com sucesso'
       }
-      #swagger.responses[400] = {
-        description: 'Este pedido já foi entregue!'
+      #swagger.responses[401] = {
+        description: 'Unauthorized'
       }
     */
   async (req, res) => {
@@ -229,7 +229,7 @@ router.post('/entrega', auth,
       const retirada = await listaService.retirarPedido(req.body.numero_pedido); //Pega o numero do pedido do body da requisição
       res.status(200).json(retirada); //retorna o json com a mensagem de sucesso.
     } catch(erro) {
-      res.status(400).send(erro.message);
+      res.status(401).send(erro.message);
     }
   }
 )

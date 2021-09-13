@@ -171,7 +171,7 @@ router.delete('/:listaId', auth,
   }
 )
 
-router.post('/finalizar-lista', auth, 
+router.post('/finalizar-lista', auth,
   check('UsuarioId')
     .not().isEmpty().matches(/\d/)
     .withMessage('UsuarioID Inválido'),

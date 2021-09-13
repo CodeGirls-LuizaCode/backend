@@ -201,4 +201,30 @@ router.post('/finalizar-lista', auth,
   }
 )
 
-module.exports = router
+router.post('/entrega', 
+  check('numero_pedido')
+    .not().isEmpty().matches(/\d/)
+    .withMessage('Número do pedido inválido'),
+    /*
+      #swagger.tags = ['Listas']
+      #swagger.description = 'Endpoint para registrar a retirada do pedido'
+
+      #swager.responses[200] = {
+        description: 'Produto retirado com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Este pedido já foi entregue!'
+      }
+    */
+  async (req, res) => {
+    
+    try {
+      const retirada = await listaService.retirarPedido(req.body.numero_pedido); //Pega o numero do pedido do body da requisição
+      res.status(200).json(retirada); //retorna o json com a mensagem de sucesso.
+    } catch(erro) {
+      res.status(400).send(erro.message);
+    }
+  }
+)
+
+module.exports = router;

@@ -76,7 +76,7 @@ router.post('/',
 
 })
 
-router.post('/login', auth,
+router.post('/login',
   check('email')
     .not().isEmpty()
     .withMessage('Campo email é obrigatório!'),

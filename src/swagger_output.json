@@ -398,6 +398,36 @@
         ]
       }
     },
+    "/listas/entrega": {
+      "post": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para registrar a retirada do pedido",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "numero_pedido": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Este pedido já foi entregue!"
+          }
+        }
+      }
+    },
     "/lojas/": {
       "get": {
         "tags": [

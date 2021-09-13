@@ -99,6 +99,9 @@ const doc = {
             UsuarioId: 1,
             LojaId: 1,
         },
+        RetirarPedido: {
+            numero_pedido: 12356549
+        },
     },
     securityDefinitions: {
         apiKeyAuth: {

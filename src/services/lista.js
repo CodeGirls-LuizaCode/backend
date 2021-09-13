@@ -138,7 +138,7 @@ class ListaService {
         lista[i].data_finalizacao = new Date(); //todos os produtos da lista do usuário recebem a data atual
         lista[i].numero_pedido = numeroDoPedido; //todos os produtos da lista do usuário recebem o n. do pedido
         
-        if(body.LojaId) {
+        if(body.LojaId) { //se o id da loja estiver preenchido, vai retirar na loja física, senão será entrega
           lista[i].LojaId = body.LojaId; 
         }
 
@@ -156,6 +156,37 @@ class ListaService {
     return response;
     
   }
+
+  async retirarPedido(numeroPedido) {
+    const lista = await this.lista.findAll({
+      where: [
+        { numero_pedido: numeroPedido }
+      ]
+    });
+  
+    if(lista.length === 0) { //se a lista está vazia é porque esse número de pedido não existe
+      throw new Error('Este número de pedido não existe!');
+    }
+  
+    if(lista[0].data_entrega) { //se a data de entraga de um item estiver preenchida é porque o pedido total já foi entregue
+      throw new Error('Este pedido já foi entregue!');
+    }
+  
+    try {
+      for(let i = 0; i < lista.length; i++) {  
+      
+        lista[i].data_entrega = new Date(); //todos os produtos da lista do usuário recebem a data atual
+  
+        await lista[i].save(); //método save percebe as alterações na lista e salva no BD
+      }
+    } catch (erro){
+      throw erro;
+    }
+
+    return lista[0].LojaId ? `Produto foi retirado na loja ${lista.Loja.nome}` : `Produto foi entregue no endereço do cliente`;
+  }
 }
+
+
   
 module.exports = ListaService;

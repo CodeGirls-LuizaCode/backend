@@ -105,7 +105,7 @@ router.post('/', auth, [
       /*
       #swagger.tags = ['Listas']
       #swagger.description = 'Endpoint para adicionar produto lista de compras'
-      #swagger.parameters['AdicionarProdutoLista] = {
+      #swagger.parameters['AdicionarProdutoLista'] = {
         in: 'body',
         description: 'Adiciona um produto na lista de compras',
         required: true,
@@ -156,13 +156,8 @@ router.delete('/:listaId', auth,
 
     }
 
-<<<<<<< HEAD
-    #swagger.responses[400] = {
-      description: 'Não foi possivel deletar o produto da lista'
-=======
     #swagger.responses[401] = {
       description: 'Unauthorized'
->>>>>>> 95ae447466f03bcaec01f823d581024be1f5290a
     }
 
   */

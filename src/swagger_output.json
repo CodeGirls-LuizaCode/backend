@@ -233,6 +233,215 @@
         }
       }
     },
+    "/listas/": {
+      "get": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para obter listagem de todas as compras.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Listas Encontradas"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para adicionar produto lista de compras",
+        "parameters": [
+          {
+            "name": "AdicionarProdutoLista",
+            "in": "body",
+            "description": "Adiciona um produto na lista de compras",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AdicionarProdutoLista"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Não foi possivel adicionar esse produto na lista"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/listas/compras/{usuarioId}": {
+      "get": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para obter todas as compras finalizadas do usuário.",
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compras realizadas"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/listas/carrinho/{usuarioId}": {
+      "get": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para obter os produtos adicionados no carrinho do usuário (compras não finalizadas)",
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produtos encontrados no carrinho do usuário"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/listas/{listaId}": {
+      "delete": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para deletar um produto da lista de compras",
+        "parameters": [
+          {
+            "name": "listaId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto deletado da lista com sucesso"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/listas/finalizar-lista": {
+      "post": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para finalizar lista de compras",
+        "parameters": [
+          {
+            "name": "FinalizarCompra",
+            "in": "body",
+            "description": "Finaliza a lista de compras",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/FinalizarCompra"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/listas/entrega": {
+      "post": {
+        "tags": [
+          "Listas"
+        ],
+        "description": "Endpoint para registrar a retirada do pedido",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "numero_pedido": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Este pedido já foi entregue!"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/lojas/": {
       "get": {
         "tags": [

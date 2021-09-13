@@ -382,7 +382,18 @@
           "Listas"
         ],
         "description": "Endpoint para finalizar lista de compras",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "FinalizarCompra",
+            "in": "body",
+            "description": "Finaliza a lista de compras",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/FinalizarCompra"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -689,6 +700,15 @@
         "LojaId": {
           "type": "number",
           "example": 1
+        }
+      }
+    },
+    "RetirarPedido": {
+      "type": "object",
+      "properties": {
+        "numero_pedido": {
+          "type": "number",
+          "example": 12356549
         }
       }
     }

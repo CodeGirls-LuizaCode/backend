@@ -178,6 +178,13 @@ router.post('/finalizar-lista', auth,
     /*
       #swagger.tags = ['Listas']
       #swagger.description = 'Endpoint para finalizar lista de compras'
+      #swagger.parameters['FinalizarCompra'] = {
+        in: 'body',
+        description: 'Finaliza a lista de compras',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/FinalizarCompra'}
+      }
 
       #swagger.security = [{
         "apiKeyAuth": []
@@ -201,7 +208,7 @@ router.post('/finalizar-lista', auth,
   }
 )
 
-router.post('/entrega', 
+router.post('/entrega', auth,
   check('numero_pedido')
     .not().isEmpty().matches(/\d/)
     .withMessage('Número do pedido inválido'),

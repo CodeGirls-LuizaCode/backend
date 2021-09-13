@@ -183,7 +183,7 @@ class ListaService {
       throw erro;
     }
 
-    return lista[0].LojaId ? `Produto foi retirado na loja ${lista.Loja.nome}` : `Produto foi entregue no endereço do cliente`;
+    return lista[0].LojaId ? "Produto foi retirado na loja" : "Produto foi entregue no endereço do cliente";
   }
 }
 

@@ -10,6 +10,7 @@ const doc = {
         title: "Code Girls API - Omni Channel",
         description: "Projeto proposto no encerramento da 3ª edição do LuizaCode, turma NodeJS",
     },
+    //host: "localhost:3000",
     host: "code-girls.herokuapp.com",
     basePath: "/",
     schemes: ['http', 'https'],

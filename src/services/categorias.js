@@ -3,7 +3,7 @@ class CategoriaService {
       this.categorias = CategoriaModel
     }
   
-    async listar () {
+    async listar() {
       const categorias = await this.categorias.findAll()
       return categorias
     }  

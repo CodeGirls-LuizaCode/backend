@@ -1,6 +1,6 @@
 const { lista, produtos } = require("../models");
 const ProdutoService = require('../services/produtos');
-const Op = require('sequelize').Op; //importado para uso do operador NÃO NULO
+const Op = require('sequelize').Op;
 
 const produtoService = new ProdutoService(produtos);
 
@@ -10,17 +10,17 @@ class ListaService {
     this.produtoService = produtoService;
   }
 
-  async listarCompras() { //lista todas as compras do usuário
+  async listarCompras() {
     const lista = await this.lista.findAll({
-      include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa o relacionamentos belongsTo)
+      include: [{all: true}]
     });
 
     return lista;
   }
   
-  async listarComprasNaoFinalizadasDoUsuario(usuarioId) { //lista apenas as compras não finalizadas do usuário, carrinho de compras
+  async listarComprasNaoFinalizadasDoUsuario(usuarioId) {
     const lista = await this.lista.findAll({
-      include: [{all: true}], //inclui todos os dados das tabelas associadas (Usa o relacionamentos belongsTo)
+      include: [{all: true}],
       where: [
         { UsuarioId: usuarioId },
         { data_finalizacao: null }
@@ -30,12 +30,12 @@ class ListaService {
     return lista;
   }
   
-  async listarComprasFinalizadasDoUsuario(usuarioId) { //lista apenas as compras finalizadas do usuário
+  async listarComprasFinalizadasDoUsuario(usuarioId) {
     const lista = await this.lista.findAll({
       include: [{all: true}],
       where: [
         { UsuarioId: usuarioId },
-        { data_finalizacao: {[Op.not]: null}} //importado método Op do sequelize, no topo, para retornar tudo que NÃO é nulo
+        { data_finalizacao: {[Op.not]: null}}
       ]
     });
 
@@ -51,7 +51,7 @@ class ListaService {
       ]
     });
 
-    if(lista) { //se lista = true, o produto já existe no carrinho
+    if(lista) {
       throw new Error('Este produto já existe na sua lista de compras.');
     }
 
@@ -62,8 +62,8 @@ class ListaService {
     }
     
     try {
-      listaCompra.quantidade = 1; //Valor setado manualmente, a versão 2 suportará maior quantidade do mesmo item.
-      await this.lista.create(listaCompra) //adiciona o produto na lista de compra
+      listaCompra.quantidade = 1;
+      await this.lista.create(listaCompra)
     } catch(erro) {
       throw erro;
     }
@@ -71,15 +71,13 @@ class ListaService {
 
   async possuiProdutoComMesmoNome(listaCompra) {
     
-    // Produto existe? Procura o produto q o cliente está comprando em todos os produtos do BD
     const produto = await this.produtoService.procuraProdutoId(listaCompra.ProdutoId)
     if(!produto) {
       throw new Error('Produto não existe!');
     }
 
-    // Traz a Lista dos pedidos do cliente que não esteja finalizada
     const lista = await this.listarComprasNaoFinalizadasDoUsuario(listaCompra.UsuarioId);
-    if(lista.length === 0) { //se a lista está vazia, não possui produto com o mesmo nome
+    if(lista.length === 0) {
       return false;
     }
  
@@ -99,11 +97,11 @@ class ListaService {
       ]
     });
 
-    if(!lista) {//se não tem valor armazenado(lista = false), entra no if
+    if(!lista) {
       throw new Error('Este ID de pedido não existe!');
     }
 
-    if(lista.data_finalizacao) {//se tem valor armazenado(lista = true), entra no if
+    if(lista.data_finalizacao) {
       throw new Error('Não é possível excluir produtos de uma compra finalizada!');
     }
 
@@ -118,6 +116,7 @@ class ListaService {
 
   async finalizaLista(body) {
     const lista = await this.lista.findAll({
+      include: [{all:true}],
       where: [
         { UsuarioId: body.UsuarioId },
         { data_finalizacao: null }
@@ -128,28 +127,28 @@ class ListaService {
       throw new Error('O usuário não possui produtos na lista!');
     }
 
-    const numeroDoPedido = await this.numeroDePedidoRandomico(10000, 999999); //gera um n. de pedido randomico min e max
+    const numeroDoPedido = await this.numeroDePedidoRandomico(10000, 999999);
+    let valorTotal = 0;
 
-    try {
-      for(let i = 0; i < lista.length; i++) {  
-        
-        await this.produtoService.diminuiEstoque(lista[i].ProdutoId, lista[i].quantidade);
+    for(let i = 0; i < lista.length; i++) {  
       
-        lista[i].data_finalizacao = new Date(); //todos os produtos da lista do usuário recebem a data atual
-        lista[i].numero_pedido = numeroDoPedido; //todos os produtos da lista do usuário recebem o n. do pedido
-        
-        if(body.LojaId) { //se o id da loja estiver preenchido, vai retirar na loja física, senão será entrega
-          lista[i].LojaId = body.LojaId; 
-        }
-
-        await lista[i].save(); //método save percebe as alterações na lista e salva no BD
+      await this.produtoService.diminuiEstoque(lista[i].ProdutoId, lista[i].quantidade);
+    
+      lista[i].data_finalizacao = new Date();
+      lista[i].numero_pedido = numeroDoPedido;
+      
+      if(body.LojaId) {
+        lista[i].LojaId = body.LojaId; 
       }
-    } catch (erro){
-      throw erro;
+
+      valorTotal += parseFloat(lista[i].Produto.valor)
+
+      await lista[i].save();
     }
 
     const response = {
       "numero_pedido": numeroDoPedido,
+      "total_pedido": valorTotal,
       "message": "Lista finalizada com sucesso"
     }
     
@@ -163,23 +162,17 @@ class ListaService {
       ]
     });
   
-    if(lista.length === 0) { //se a lista está vazia é porque esse número de pedido não existe
+    if(lista.length === 0) {
       throw new Error('Este número de pedido não existe!');
     }
   
-    if(lista[0].data_entrega) { //se a data de entraga de um item estiver preenchida é porque o pedido total já foi entregue
+    if(lista[0].data_entrega) {
       throw new Error('Este pedido já foi entregue!');
     }
   
-    try {
-      for(let i = 0; i < lista.length; i++) {  
-      
-        lista[i].data_entrega = new Date(); //todos os produtos da lista do usuário recebem a data atual
-  
-        await lista[i].save(); //método save percebe as alterações na lista e salva no BD
-      }
-    } catch (erro){
-      throw erro;
+    for(let i = 0; i < lista.length; i++) {  
+      lista[i].data_entrega = new Date();
+      await lista[i].save();
     }
 
     return lista[0].LojaId ? "Produto foi retirado na loja" : "Produto foi entregue no endereço do cliente";

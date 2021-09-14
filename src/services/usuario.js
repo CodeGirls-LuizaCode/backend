@@ -1,12 +1,13 @@
+const Op = require('sequelize').Op;
+
 class UsuarioService {
   constructor (UsuarioModel) {
     this.usuario = UsuarioModel
   }
 
-
   async listar () {
     const usuario = await this.usuario.findAll({
-      include: [{all: true}] //inclui todos os dados das tabelas associadas (Usa os relacionamentos de tabelas pra isso)
+      include: [{all: true}]
     });
     return usuario
   }
@@ -14,10 +15,16 @@ class UsuarioService {
   async cadastrar(dadosUsuario){
     const usuario = await this.usuario.findOne({
       where: {
-        cpf: dadosUsuario.cpf
+        [Op.or]: [
+          { cpf: dadosUsuario.cpf },
+          { email: dadosUsuario.email }
+        ]
       }
     })
-    if (usuario != null){
+    if (usuario){
+      if (usuario.email == dadosUsuario.email) {
+        throw new Error('Já existe um usuário cadastrado com esse email!')
+      }
       throw new Error('Já existe um usuário cadastrado com esse CPF!')
     }
     try {
@@ -29,7 +36,7 @@ class UsuarioService {
   }
   
   async alterar(id, dadosUsuario) {
-    if(dadosUsuario.cpf) { //elimina o cpf, caso seja enviado no body da atualização
+    if(dadosUsuario.cpf) {
       delete dadosUsuario.cpf;
     }
 
@@ -39,6 +46,6 @@ class UsuarioService {
   async deletar(id) {
     return await this.usuario.destroy({ where: { id: id } })
   }
-  
 }
+
 module.exports = UsuarioService

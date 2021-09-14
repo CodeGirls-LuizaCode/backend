@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
   res.status(200).json(produtos);
 })
 
-router.get('/:produtoId', async (req, res) => { //retorna o produto especificado no ID
+router.get('/:produtoId', async (req, res) => {
       /*
       #swagger.tags = ['Produtos']
       #swagger.description = 'Endpoint para retornar um produto por ID'
@@ -34,7 +34,6 @@ router.get('/:produtoId', async (req, res) => { //retorna o produto especificado
     */
   const produtos = await produtoService.procuraProdutoId(req.params.produtoId);
   res.status(200).json(produtos);
-  
 })
 
 module.exports = router;

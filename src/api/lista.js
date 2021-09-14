@@ -27,7 +27,6 @@ router.get('/', auth, async (req, res) => {
     #swagger.responses[401] = {
       description: 'Unauthorized',
     }
-
   */
   try{
     const listas = await listaService.listarCompras();
@@ -35,10 +34,9 @@ router.get('/', auth, async (req, res) => {
   } catch(erro) {
     res.status(400).send(erro.message);
   }
-
 })
 
-router.get('/compras/:usuarioId', auth,async (req, res) => {
+router.get('/compras/:usuarioId', auth, async (req, res) => {
     /*
     #swagger.tags = ['Listas']
     #swagger.description = 'Endpoint para obter todas as compras finalizadas do usuário.'
@@ -58,7 +56,6 @@ router.get('/compras/:usuarioId', auth,async (req, res) => {
     #swagger.responses[401] = {
       description: 'Unauthorized',
     }
-
   */
   try{
     const listas = await listaService.listarComprasFinalizadasDoUsuario(req.params.usuarioId);
@@ -66,7 +63,6 @@ router.get('/compras/:usuarioId', auth,async (req, res) => {
   } catch(erro){
     res.status(400).send(erro.message);
   }
-
 })
 
 router.get('/carrinho/:usuarioId', auth, async (req, res) => {
@@ -88,7 +84,6 @@ router.get('/carrinho/:usuarioId', auth, async (req, res) => {
     #swagger.responses[401] = {
       description: 'Unauthorized',
     }
-
   */
  try{
   const listas = await listaService.listarComprasNaoFinalizadasDoUsuario(req.params.usuarioId);
@@ -96,7 +91,6 @@ router.get('/carrinho/:usuarioId', auth, async (req, res) => {
   } catch(erro){
     res.status(400).send(erro.message);
   }
-
 })
 
 router.post('/', auth, [
@@ -170,7 +164,6 @@ router.delete('/:listaId', auth,
       description: 'Unauthorized',
 
     }
-
   */
   async (req, res) => {
     try {
@@ -212,10 +205,9 @@ router.post('/finalizar-lista', auth,
       }
     */
   async (req, res) => {
-    
     try {
-      const pedido = await listaService.finalizaLista(req.body); //Pega o usuárioID do body da requisição
-      res.status(200).json(pedido); //retorna o json com numero do pedido e mensagem de sucesso.
+      const pedido = await listaService.finalizaLista(req.body);
+      res.status(200).json(pedido);
     } catch(erro) {
       res.status(400).send(erro.message);
     }
@@ -246,12 +238,11 @@ router.post('/entrega', auth,
       }
     */
   async (req, res) => {
-    
     try {
-      const retirada = await listaService.retirarPedido(req.body.numero_pedido); //Pega o numero do pedido do body da requisição
-      res.status(200).json(retirada); //retorna o json com a mensagem de sucesso.
+      const retirada = await listaService.retirarPedido(req.body.numero_pedido);
+      res.status(200).json(retirada);
     } catch(erro) {
-      res.status(401).send(erro.message);
+      res.status(400).send(erro.message);
     }
   }
 )

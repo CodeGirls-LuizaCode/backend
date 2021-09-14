@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const auth = require('./autenticacao');
 const jwtSecret = 'codegirlscodegirlscodegirls'
 
-
 const usuarioService = new UsuarioService(usuario);
 
 router.get('/', async (req, res) => {
@@ -30,7 +29,6 @@ router.get('/', async (req, res) => {
     res.status(200).json(usuario);
 
 })
-
 
 router.post('/',
   check('cpf')
@@ -71,9 +69,7 @@ router.post('/',
       res.status(201).send('Usuário cadastrado com sucesso!');
     } catch(erro) {
       res.status(400).send(erro.message);
-    }
-  
-
+    }  
 })
 
 router.post('/login',
@@ -102,7 +98,6 @@ router.post('/login',
     }
 
   */
-
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() })
@@ -111,25 +106,21 @@ router.post('/login',
     const { email, senha } = req.body
     const user = await usuario.findOne({
         where: {
-          email: email
+          email: email,
+          senha: senha
         }
       })
 
-    if(user != undefined) {
-        if(user.senha == senha) {
-            jwt.sign({id: user.id, email: user.email}, jwtSecret, {expiresIn: '48h'},(err, token) => {
-                if(err){
-                    res.status(400).json('Falha interna!')
-                }else {
-                    res.status(200).json({token: token})
-                }
-            })
-        } else {
-            res.status(401).send('Credenciais inválidas!')
-        }
-    } else {
-        res.status(404).send('Email não cadastrado')
+    if(!user) {
+      res.status(404).send('Credenciais Inválidas')
     }
+
+    jwt.sign({id: user.id, email: user.email}, jwtSecret, {expiresIn: '48h'},(err, token) => {
+        if(err) {
+            res.status(400).json('Falha interna!')
+        }
+        res.status(200).json({token: token})
+    })
 })
 
 router.put('/:id',
@@ -150,8 +141,6 @@ router.put('/:id',
         description: 'Não foi possivel atualizar esse cadastro'
       }
     */
- 
-
   async (req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
@@ -166,7 +155,6 @@ router.put('/:id',
     }
 
   })
-
 
 router.delete('/:id', async (req, res) => {
   /*
@@ -194,8 +182,6 @@ router.delete('/:id', async (req, res) => {
     } catch(erro) {
       res.status(400).send(erro.message);
     }
-
 })
-
 
 module.exports = router

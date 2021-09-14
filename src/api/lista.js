@@ -216,6 +216,10 @@ router.post('/entrega', auth,
       #swagger.tags = ['Listas']
       #swagger.description = 'Endpoint para registrar a retirada do pedido'
 
+      #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+
       #swagger.responses[200] = {
         description: 'Produto retirado com sucesso'
       }

@@ -92,7 +92,6 @@ const doc = {
             enderecoId: 1
         },
         AdicionarProdutoLista: {
-            quantidade: 1,
             UsuarioId: 1,
             ProdutoId: 6,
         },

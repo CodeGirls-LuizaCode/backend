@@ -56,16 +56,15 @@ class ListaService {
     }
 
     const jaExiste = await this.possuiProdutoComMesmoNome(listaCompra);
-    console.log(jaExiste);
 
     if(jaExiste) {
-      throw new Error('ERRO: Mesmo tipo de produto já adicionado ao carrinho.');
+      throw new Error('Mesmo tipo de produto já adicionado ao carrinho.');
     }
     
     try {
+      listaCompra.quantidade = 1; //Valor setado manualmente, a versão 2 suportará maior quantidade do mesmo item.
       await this.lista.create(listaCompra) //adiciona o produto na lista de compra
     } catch(erro) {
-      console.log(erro.message);
       throw erro;
     }
   }
@@ -89,6 +88,7 @@ class ListaService {
         return true;
       }
     }
+    
     return false;
   }
 
@@ -154,7 +154,6 @@ class ListaService {
     }
     
     return response;
-    
   }
 
   async retirarPedido(numeroPedido) {
@@ -187,6 +186,4 @@ class ListaService {
   }
 }
 
-
-  
 module.exports = ListaService;

@@ -124,7 +124,7 @@ router.post('/', auth, [
       }]
 
       #swagger.responses[200] = {
-        description: 'Produto adicionado na lista com sucesso',
+        description: 'Produto adicionado na lista com sucesso'
       }
       #swagger.responses[400] = {
         description: 'Bad Request',
@@ -168,6 +168,7 @@ router.delete('/:listaId', auth,
     }
     #swagger.responses[401] = {
       description: 'Unauthorized',
+
     }
 
   */
@@ -234,6 +235,7 @@ router.post('/entrega', auth,
       }]
 
       #swagger.responses[200] = {
+
         description: 'Produto retirado com sucesso',
       }
       #swagger.responses[400] = {
@@ -249,7 +251,7 @@ router.post('/entrega', auth,
       const retirada = await listaService.retirarPedido(req.body.numero_pedido); //Pega o numero do pedido do body da requisição
       res.status(200).json(retirada); //retorna o json com a mensagem de sucesso.
     } catch(erro) {
-      res.status(400).send(erro.message);
+      res.status(401).send(erro.message);
     }
   }
 )

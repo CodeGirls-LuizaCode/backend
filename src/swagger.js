@@ -3,7 +3,6 @@ const swaggerAutogen = require('swagger-autogen')()
 const outputFile = './src/swagger_output.json';
 const endpointFiles = ['./src/app.js']
 
-
 const doc = {
     info: {
         version: "1.0.0",
@@ -48,7 +47,7 @@ const doc = {
             image_prod: "null",
             createdAt: "2021-09-06 14:21:40",
             updatedAt: "2021-09-06 14:21:40",
-            categoriaId: 1
+            CategoriaId: 1
         },
         Usuario: {
             id: 1,
@@ -59,7 +58,7 @@ const doc = {
             senha: "12345636",
             createdAt: "2021-09-06T17:29:44.105Z",
             updatedAt: "2021-09-06T17:29:44.105Z",
-            enderecoId: 1
+            EnderecoId: 1
         },
         Lojas: {
             id: 1,
@@ -81,7 +80,7 @@ const doc = {
             $cpf: "321.456.036-59",
             $data_nascimento: "1994-08-21",
             $senha: "12345636",
-            $enderecoId: 1
+            $EnderecoId: 1
         },
         AtualizarUsuario: {
             nome: "Thais Minas",
@@ -89,7 +88,7 @@ const doc = {
             cpf: "123.345.134-89",
             data_nascimento: "1994-08-21",
             senha: "12345636",
-            enderecoId: 1
+            EnderecoId: 1
         },
         AdicionarProdutoLista: {
             UsuarioId: 1,
@@ -112,10 +111,6 @@ const doc = {
         },
     },
 }
-
-
-
-
 
 swaggerAutogen(outputFile, endpointFiles, doc)
 

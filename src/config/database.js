@@ -1,11 +1,10 @@
-require('dotenv').config()
 module.exports = {
   dialect:'postgres',
-  host: process.env.HOST_DB,
+  host: 'ec2-54-147-126-173.compute-1.amazonaws.com',
   port: 5432,
-  database: process.env.DATA_BASE,
-  username: process.env.USER_DB,
-  password: process.env.PASSWORD_DB,
+  database: 'dev5e6hj3j13vu',
+  username: 'bifijodsoepfhq',
+  password: 'd3fa3b287a9d006c4e17289852f5c1e46352079c444ed510332a61e9a0e6dbe8',
   dialectOptions: {
       ssl: {
         require: true, 

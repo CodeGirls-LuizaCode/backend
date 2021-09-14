@@ -13,7 +13,7 @@ const doc = {
     //host: "localhost:3000",
     host: "code-girls.herokuapp.com",
     basePath: "/",
-    schemes: ['http', 'https'],
+    schemes: ['https', 'http'],
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [

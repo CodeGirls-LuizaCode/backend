@@ -23,7 +23,6 @@ class UsuarioService {
     try {
       await this.usuario.create(dadosUsuario)
     } catch (erro){
-      console.log(erro.message)
       throw erro
     }
 

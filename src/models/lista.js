@@ -7,7 +7,6 @@ const lista = ( sequelize, DataTypes) => {
         },
         quantidade: {
             type: DataTypes.NUMERIC,
-            allowNull: false
         },
         data_entrega: {
             type: DataTypes.DATE,
@@ -15,7 +14,6 @@ const lista = ( sequelize, DataTypes) => {
         data_finalizacao: {
             type: DataTypes.DATE,
         },
-
     }, {
         tableName: 'lista'
     })
